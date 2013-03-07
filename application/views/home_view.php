@@ -6,6 +6,7 @@
   <body>
     <h1>Home</h1>
     <h2>Welcome <?php echo $username; ?>!</h2>
-    <a href="home/logout">Logout</a>
+    <a href="home/logout">Logout</a> 
+	<p>Last login: <?php echo $lastLogin ?></p>
   </body>
 </html>

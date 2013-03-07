@@ -11,7 +11,8 @@ class VerifyLogin extends CI_Controller {
   function index()
   {
     //This method will have the credentials validation
-    $this->load->library('form_validation');
+    $this->load->library('form_validation');   
+	$data = array();
 
     $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
     $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|callback_check_database');
@@ -46,7 +47,7 @@ class VerifyLogin extends CI_Controller {
           'id' => $row->id,
           'username' => $row->username
         );
-        $this->session->set_userdata('logged_in', $sess_array);
+        $this->session->set_userdata('logged_in', $sess_array);  
       }
       return TRUE;
     }

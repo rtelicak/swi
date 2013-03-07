@@ -4,33 +4,34 @@
     <title>SWI2</title>
 	<link href="<?php echo base_url();?>/bootstrap/css/bootstrap.css" rel="stylesheet">
 	    <style type="text/css">
-	      /* Override some defaults */
-	      html, body {
-	        background-color: #eee;
-	      }
-	      body {
-	        padding-top: 40px; 
-	      }
-	      .container {
-	        width: 300px;
-	      }
-
-	      /* The white background content wrapper */
-	      .container > .content {
-	        background-color: #fff;
-	        padding: 20px;
-	        margin: 0 -20px; 
-	        -webkit-border-radius: 10px 10px 10px 10px;
-	           -moz-border-radius: 10px 10px 10px 10px;
-	                border-radius: 10px 10px 10px 10px;
-	        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-	           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-	                box-shadow: 0 1px 2px rgba(0,0,0,.15);
-	      }
-
-		  .login-form {
-			margin-left: 65px;
-		  }
+			/* Override some defaults */
+			html, body {
+				background-color: #eee;
+			}
+			body {
+				padding-top: 40px; 
+			}
+			.container {
+				width: 300px;          
+			}  
+			.span2{
+				width: 180px !important;
+			}         
+			/* The white background content wrapper */
+			.container > .content {
+				background-color: #fff;
+				padding: 20px;
+				margin: 0 -20px; 
+				-webkit-border-radius: 10px 10px 10px 10px;
+				-moz-border-radius: 10px 10px 10px 10px;
+				border-radius: 10px 10px 10px 10px;
+				-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+				-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+				box-shadow: 0 1px 2px rgba(0,0,0,.15);
+			}
+			.login-form {
+				margin-left: 65px;
+			}                         
 	    </style>
   </head>
   <body>
