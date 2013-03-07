@@ -10,13 +10,10 @@ class Home extends CI_Controller {
 	function index(){
 		if($this->session->userdata('logged_in'))
 		{
-			$session_data = $this->session->userdata('logged_in');
+			$session_data = $this->session->userdata('logged_in');  
 			$data['username'] = $session_data['username']; 
-			$user = $this->user->getLastLogin($session_data['id']); 
-			$data['lastLogin'] = $user[0]->lastLogin;
-			// $data['lastLogin'] = 
-			// echo $session_data['id'];  
-			// print_r($user[0]);
+			$result = $this->user->getLastLogin($session_data['id']); 
+			$data['lastLogin'] = $result->lastLogin;
 			$this->load->view('home_view', $data);
 		}
 		else

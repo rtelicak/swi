@@ -23,8 +23,9 @@ Class User extends CI_Model
 	}
 	function getLastLogin($id)
 	{
-		// get last login
-		$query = $this->db->get_where('users', array('id' => $id));
+		// get last login  
+		$this->db->select('lastLogin');
+		$result = $this->db->get_where('users', array('id' => $id));
 		                 
 		// and set new one
 		$actualDate = date("Y-m-d H:i:s");
@@ -33,7 +34,7 @@ Class User extends CI_Model
 		$this->db->where('id', $id);
 		$this->db->update('users', $data);  
 		
-		return $query->result();
+		return $result->row();
 	}
 }
 ?>
