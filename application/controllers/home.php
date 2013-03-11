@@ -8,16 +8,16 @@ class Home extends CI_Controller {
 	}
 
 	function index(){
-		if($this->session->userdata('logged_in'))
-		{
+		$this->load->helper('form');
+		
+		if($this->session->userdata('logged_in')){ 
 			$session_data = $this->session->userdata('logged_in');  
 			$data['username'] = $session_data['username']; 
 			$result = $this->user->getLastLogin($session_data['id']); 
 			$data['lastLogin'] = $result->lastLogin;
 			$this->load->view('home_view', $data);
 		}
-		else
-		{
+		else{
 			//If no session, redirect to login page
 			redirect('login', 'refresh');
 		}
@@ -27,6 +27,10 @@ class Home extends CI_Controller {
 		$this->session->unset_userdata('logged_in');
 		session_destroy();
 		redirect('home', 'refresh');
+	}
+	
+	function displayTaskForm(){
+		$this->load->view('task_form');
 	} 
 }
 ?>
