@@ -64,7 +64,7 @@
             <ul id="tasks-menu" class="nav nav-list collapse">
                 <li ><a href="list.html">Prehľad úloh <span class="label label-info">+2</span></a></li>
                 <li ><a href="list.html">Prehľad mojich úloh <span class="label label-info">+1</span></a></li>
-                <li ><a href="home/displayTaskForm">Pridať novú úlohu</a></li>
+                <li ><a href="task/add_task">Pridať novú úlohu</a></li>
             </ul>
             <a href="home/logout" class="nav-header" ><i class="icon-user"></i>Odhlásenie</a>
         </div>
