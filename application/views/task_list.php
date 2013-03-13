@@ -23,22 +23,31 @@
                         </div>
                     </div>
                     <div class="">
+						<!-- <ul>
+						<?php foreach ($tasks as $task): ?>
+							<li><?=$task->title?></li>
+						<?php endforeach; ?>
+	                    </ul> -->
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Názov</th>
                                     <th>Priradený</th>
                                     <th>Deadline</th>
-                                    <th>Stav</th>
+                                    <th>Stav</th>    
+									<th>Priorita</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></td>
-                                    <td>User1</td>
-                                    <td>14.03.2013</td>
-                                    <td><span class="label label-important">Nevyriešená</span></td>
-                                </tr>
+                            <tbody> 
+									<?php foreach ($tasks as $task): ?>
+										<tr>
+											<td><a href=<?=$task->id?>><?=$task->title?></a></td>
+											<td><?=$task->username?></td>
+											<td><?=$task->deadline?></td>
+											<td><?=$task->state?></td> 
+											<td><?=$task->priority?></td> 
+										</tr>
+									<?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
