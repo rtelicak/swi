@@ -62,8 +62,8 @@
             </ul>
             <a href="#tasks-menu" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Úlohy<span class="label label-info">+3</span></a>
             <ul id="tasks-menu" class="nav nav-list collapse">
-                <li ><a href="list.html">Prehľad úloh <span class="label label-info">+2</span></a></li>
-                <li ><a href="list.html">Prehľad mojich úloh <span class="label label-info">+1</span></a></li>
+                <li ><a href="task/task_list">Prehľad úloh <span class="label label-info">+2</span></a></li>
+                <li ><a href="">Prehľad mojich úloh <span class="label label-info">+1</span></a></li>
                 <li ><a href="task/add_task">Pridať novú úlohu</a></li>
             </ul>
             <a href="home/logout" class="nav-header" ><i class="icon-user"></i>Odhlásenie</a>
