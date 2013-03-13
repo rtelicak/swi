@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Manažér úloh - administrácia v1.1 ahojkydasdas</title>
+        <title>Manažér úloh - administrácia v1.1 ahojkydasdasdadas</title>
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
