@@ -48,6 +48,28 @@ class Task extends CI_Controller {
 		$this->db->insert('tasks', $data);
 	}
 	
+	function detail($id_task){
+		try {
+			$query = $this->db->query("SELECT users.username, tasks.title, tasks.desc, tasks.created, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE tasks.id = ".$id_task."");
+		} catch (Exception $e) {
+			  print_r($e);
+		}
+		
+		$result = $query->row(); 
+		$data = array();
+		
+		foreach($result as $key => $value) {
+			$data[$key] = $value;
+		} 
+		
+		// atribut username je dole presetovany, koli vypisu lognuteho usera v nav bare
+		$data['assigned_user']  = $data['username'];
+		
+		$session_data = $this->session->userdata('logged_in');  
+		$data['username'] = $session_data['username']; 
+		$this->load->view('task_detail', $data);
+	}
+	
 	function get_users(){
 		$query = $this->db->query("SELECT DISTINCT username, id FROM users");
 		$result = array();
