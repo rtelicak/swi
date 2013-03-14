@@ -15,19 +15,21 @@ class Task extends CI_Controller {
 		$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id");
 		$tasks = array();
 		foreach ($query->result() as $row){
-			// $result[$row->id] = $row->username;
-			// print_r($row);
 			$tasks[] = $row;
-		}
+		}                   
+		
 		$data = array();
 		$data['tasks'] = $tasks;
-		// print_r($data);
+		$session_data = $this->session->userdata('logged_in');  
+		$data['username'] = $session_data['username']; 
 		$this->load->view('task_list', $data);
 	}
 	
 	function add_task(){
 		$data['users'] = $this->get_users();
 		$data['priorities'] = $this->get_priorities();
+		$session_data = $this->session->userdata('logged_in');  
+		$data['username'] = $session_data['username']; 
 		$this->load->view('task_form', $data);
 	} 
 	

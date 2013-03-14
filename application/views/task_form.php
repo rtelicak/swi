@@ -7,8 +7,7 @@
                 <h1 class="page-title">Nová úloha</h1>
             </div>
             <ul class="breadcrumb">
-                <li><a href="home">Domov</a> <span class="divider">/</span></li>
-                <li><a href="task/list">Zoznam úloh</a> <span class="divider">/</span></li>
+                <li><a href="home">Úlohy</a> <span class="divider">/</span></li>
                 <li class="active">Nová úloha</li>
             </ul>
             <div class="container-fluid">

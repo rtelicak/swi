@@ -23,11 +23,6 @@
                         </div>
                     </div>
                     <div class="">
-						<!-- <ul>
-						<?php foreach ($tasks as $task): ?>
-							<li><?=$task->title?></li>
-						<?php endforeach; ?>
-	                    </ul> -->
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -84,7 +79,7 @@
                 </div>
             </div>
         </div>
-        <script src="lib/bootstrap/js/bootstrap.js"></script>
+        <script src="<?php echo base_url() ?>resources/bootstrap/js/bootstrap.js" type="text/javascript"></script>
         <script type="text/javascript">
             $("[rel=tooltip]").tooltip();
             $(function() {
