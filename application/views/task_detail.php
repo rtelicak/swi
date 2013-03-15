@@ -45,6 +45,16 @@
                                 <p>Scallion burdock silver beet water spinach turnip watercress aubergine.</p>
                             </div>
                         </div>
+                        <form class="addcoment form-horizontal mt-30" method="post" action="#">
+                        <legend>Pridať nový komentár</legend>
+                        	<textarea id="commentarea" placeholder="Váš komentár.." rows="5" cols="25"></textarea>
+                            <div class="form-actions pl-10">
+	                            <button type="submit" class="btn btn-success pull-left mr-10"><i class="icon-ok"></i> Pridať komentár</button>
+    	                        <button type="button" class="btn btn-danger pull-left"><i class="icon-ban-circle"></i> Zmazať napísané</button>
+                            </div>
+                            <input type="hidden" name="userid" id="userid" value="" />
+                            <input type="hidden" name="taskid" id="taskid" value="" />
+                        </form>
                     </div>
                     <div class="span3">
                         <div class="toc well boot">

@@ -806,7 +806,7 @@ table.table.list tr:first-child td {
 .ml-45 { margin-left: 45px; }
 .pl-0  { padding-left: 0px; }
 .pl-5 { padding-left: 5px; }
-.pl-10 { padding-left: 10px; }
+.pl-10 { padding-left: 10px !important; }
 .pl-15 { padding-left: 15px; }
 .pl-30 { padding-left: 30px; }
 .pl-45 { padding-left: 45px; }
@@ -816,6 +816,12 @@ table.table.list tr:first-child td {
 .pt-15 { padding-top: 15px; }
 .pt-30 { padding-top: 30px; }
 .pt-45 { padding-top: 45px; }
+.pr-0  { padding-right: 0px !important; }
+.pr-5  { padding-right: 5px !important; }
+.pr-10 { padding-right: 10px !important; }
+.pr-15 { padding-right: 15px !important; }
+.pr-30 { padding-right: 30px !important; }
+.pr-45 { padding-right: 45px !important; }
 
 .mt--5 { margin-top: -5px;}
 
@@ -825,5 +831,31 @@ table.table.list tr:first-child td {
 .w-50 { width: 50% !important;}
 .w-49 { width: 49% !important;}
 .w-40 { width: 40% !important;}
+
+.well.boot {
+	background-color: #F5F5F5;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    margin-bottom: 20px;
+    min-height: 20px;
+    padding: 19px;
+}
+
+.well.boot.comment h4 {
+	margin-top: 0px;
+}
+
+.well.boot.comment p {
+	margin-bottom: 0px;
+}
+
+.well.boot.comment {
+	margin-bottom: 5px;
+	padding: 8px 15px;
+}
+
+#commentarea {
+	width: 350px;
+}
 
 /** END CUSTOM **/
