@@ -777,6 +777,7 @@ table.table.list tr:first-child td {
 .right { float: right; }
 .text-right { text-align: right; }
 .font-12 { font-size: 12px; }
+.font-120 { font-size: 120%; }
 .m-0 { margin: 0px !important; }
 .m-5 { margin: 5px !important; }
 .m-10 { margin: 10px !important; }
@@ -788,6 +789,7 @@ table.table.list tr:first-child td {
 .mb-30 { margin-bottom: 30px; }
 .mb-45 { margin-bottom: 45px; }
 .mt-0  { margin-top: 0px; }
+.mt-5  { margin-top: 5px; }
 .mt-10 { margin-top: 10px; }
 .mt-15 { margin-top: 15px; }
 .mt-30 { margin-top: 30px; }
@@ -806,7 +808,7 @@ table.table.list tr:first-child td {
 .ml-45 { margin-left: 45px; }
 .pl-0  { padding-left: 0px; }
 .pl-5 { padding-left: 5px; }
-.pl-10 { padding-left: 10px !important; }
+.pl-10 { padding-left: 10px; }
 .pl-15 { padding-left: 15px; }
 .pl-30 { padding-left: 30px; }
 .pl-45 { padding-left: 45px; }
@@ -816,12 +818,6 @@ table.table.list tr:first-child td {
 .pt-15 { padding-top: 15px; }
 .pt-30 { padding-top: 30px; }
 .pt-45 { padding-top: 45px; }
-.pr-0  { padding-right: 0px !important; }
-.pr-5  { padding-right: 5px !important; }
-.pr-10 { padding-right: 10px !important; }
-.pr-15 { padding-right: 15px !important; }
-.pr-30 { padding-right: 30px !important; }
-.pr-45 { padding-right: 45px !important; }
 
 .mt--5 { margin-top: -5px;}
 
@@ -852,6 +848,11 @@ table.table.list tr:first-child td {
 .well.boot.comment {
 	margin-bottom: 5px;
 	padding: 8px 15px;
+}
+
+span.username {
+	margin-top: 5px;
+	display: block;
 }
 
 #commentarea {
