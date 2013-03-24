@@ -17,22 +17,29 @@ class User extends CI_Controller {
 
 		$query_tasks = $this->db->query("SELECT tasks.id_user, tasks.id, tasks.id_priority FROM tasks LEFT JOIN users ON tasks.id_user = users.id");
 		$tasksQuery = $query_tasks->result();
-		var_dump($tasksQuery);             
-		
-		$users = array();
-		foreach ($userQuery as $rowUser){
-			$users[ $rowUser->id ] = $rowUser;
-				foreach ($tasksQuery as $rowTasks){
-					if ( ($rowUser->id == $rowTasks->id_user) ) {
-						$users[ $rowUser->id ][ $rowTasks->id ] = $rowTasks;	
-					}
+
+		foreach ($userQuery as $user) {
+			$user->tasks = array();
+			foreach ($tasksQuery as $task) {
+				if ($task->id_user == $user->id){
+					$user->tasks[] = $task;
 				}
-		}      
+			}
+		}
+		
+		//$this->debug($userQuery);
 		
 		$data = array();
+		$data['users'] = $userQuery;
 		$session_data = $this->session->userdata('logged_in');  
 		$data['username'] = $session_data['username']; 
 		$this->load->view('user_list', $data);
+	} 
+	
+	function debug($data){
+		echo '<pre>';
+		print_r($data);
+		echo '</pre>';
 	}
 	
 	function get_users(){

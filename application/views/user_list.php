@@ -36,28 +36,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td width="55%" class="font-120">
-                  	<span class="username"><a href="#">Bender Rodriguez</a></span>
-                  </td>
-                  <td>Celkovo <span class="badge badge-info">8</span> | Vyriešených <span class="badge badge-success">4</span> | Nevyriešených <span class="badge badge-important">4</span></td>
-                  <td><a href="#" class="btn btn-link btn-small"><i class="icon-bar-chart"></i> Zobraziť</a></td>
-                  <td width="15%">
-                      <a href="#" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
-   	                  <a href="#" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="55%" class="font-120">
-                  	<span class="username"><a href="#">Bender Rodriguez</a></span>
-                  </td>
-                  <td>Celkovo <span class="badge badge-info">8</span> | Vyriešených <span class="badge badge-success">4</span> | Nevyriešených <span class="badge badge-important">4</span></td>
-                  <td><a href="#" class="btn btn-link btn-small"><i class="icon-bar-chart"></i> Zobraziť</a></td>
-                  <td width="15%">
-                      <a href="#" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
-   	                  <a href="#" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
-                  </td>
-                </tr>
+              <?php foreach ($users as $user): ?>
+					<tr>
+						<td width="55%" class="font-120"><a href=detail/<?=$user->id?>><?=$user->username?></a></td>
+						<td>Celkovo <span class="badge badge-info">-</span> | Vyriešených <span class="badge badge-success">-</span> | Nevyriešených <span class="badge badge-important">-</span></td>
+						<td><a href="#stats" class="btn btn-link btn-small"><i class="icon-bar-chart"></i> Zobraziť</a></td>
+						<td width="15%">
+                        	<a href="#<?=$user->id?>" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
+                        	<a href="#<?=$user->id?>" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
+                        </td> 
+					</tr>
+				<?php endforeach; ?>
               </tbody>
             </table>
 </div>
