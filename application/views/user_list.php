@@ -10,8 +10,8 @@
         </div>
         
                 <ul class="breadcrumb">
-            <li><a href="index.html">Domov</a> <span class="divider">/</span></li>
-            <li class="active">Zoznam úloh</li>
+            <li><a href="">Domov</a> <span class="divider">/</span></li>
+            <li class="active">Zoznam používateľov</li>
         </ul>
 
         <div class="container-fluid">
