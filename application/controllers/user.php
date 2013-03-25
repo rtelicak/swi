@@ -15,7 +15,7 @@ class User extends CI_Controller {
 		$query = $this->db->query("SELECT id, username FROM users");
 		$userQuery = $query->result();
 
-		$query_tasks = $this->db->query("SELECT tasks.id_user, tasks.id, tasks.id_priority FROM tasks LEFT JOIN users ON tasks.id_user = users.id");
+		$query_tasks = $this->db->query("SELECT tasks.id_assigned_user as id_user, tasks.id, tasks.id_priority FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id");
 		$tasksQuery = $query_tasks->result();
 
 		foreach ($userQuery as $user) {
