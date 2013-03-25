@@ -1,9 +1,9 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+                                    <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Task extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->helper('form'); 
+		$this->load->helper('form');
 		$this->load->library('form_validation');   
 	    $this->form_validation->set_rules('title', 'Nazov', 'required');
 		$this->form_validation->set_rules('desc', 'Popis ulohy', 'required');
@@ -11,13 +11,13 @@ class Task extends CI_Controller {
 	}
 
 	function index(){
-		$this->task_list();
-		// $this->load->view('task_list');
+		
 	}
 	
 	function task_list(){              
-		$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id");
-		$tasks = array();
+		$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id");
+		$tasks = array();  
+		
 		foreach ($query->result() as $row){
 			$tasks[] = $row;
 		}                   
@@ -29,70 +29,85 @@ class Task extends CI_Controller {
 		$this->load->view('task_list', $data);
 	}
 	
+	function edit_task($id){
+		$data = $this->populate_data_array($id);
+		// print_r($data); exit;
+		$this->load->view('task_form', $data);
+	}
+	
 	function add_task(){                  
 		$data = $this->populate_data_array();
 		$this->load->view('task_form', $data);
 	}
-		
+	
+	function get_posted_data(){
+		$data = array();
+		foreach ($_POST as $key => $value) {
+			print_r($_POST);
+			$data[$key] = $value;
+		}
+	}
+	
 	function save(){
-		$data = $_POST;
+		$data = $this->get_posted_data();
+		$data = $this->populate_other_data();
+		print_r($data);exit
+		// $id = $_POST['id'];
+		// $data = array(
+		// 	'title'		=>	$_POST['title'],
+		// 	'desc'		=> $_POST['desc'],
+		// 	'deadline'	=> $_POST['deadline'],
+		// 	'id_priority' => $_POST['priority'],
+		// 	'assigned_user'	=>	$_POST['user'],
+		// );
+
 		
 		if ($this->form_validation->run() == FALSE){ 
-				// save failed, fill form with posted data
-				$data = $this->populate_other_data($data);
-				$this->load->view('task_form', $data);
+				$data = array();
+				// $data['']
+				// $data = $this->populate_other_data($data); 
+				$this->load->view('task_form');
 		}else{
-			if ($data['id_task']){
-				// update task  
-				$id_task = $data['id_task'];
-				unset($data['id_task']);  
-				
-				// perform update database
-				$this->db->where('id', $id_task);
-				$this->db->update('tasks', $data);
-				
-				// redirect to task detail we just updated
-				$this->detail($id_task);
+			if ($id){
+				// update task
+				$this->db->where('id', $id);
+				$this->db->update('tasks', $data);  
 			} else{
-				// create task 
-				unset($data['id_task']);
+				// create task
+				unset($data['id']);
+				unset($data['assigned_user']);
 				
-				// default properties when creating task
 				$data['created'] = date("Y-m-d"); 
 				$data['id_state'] = 1;
-				
+				// print_r($data);exit;
 				$this->db->insert('tasks', $data);
-				redirect('task', 'refresh');
 			}
+			// TODO: redirect somewhere
+			// $this->load->view('');
 		}
 	}
 	
 	function detail($id_task){
-		$task = $this->get_task($id_task);
+		$result = $this->get_task($id_task);
 		$data = array();
 		
-		foreach($task as $key => $value) {
+		foreach($result as $key => $value) {
 			$data[$key] = $value;
 		} 
 		
-		$data = $this->populate_other_data($data);
+		// atribut username je dole presetovany, koli vypisu lognuteho usera v nav bare
+		$data['assigned_user']  = $data['username'];
+		
+		$session_data = $this->session->userdata('logged_in');  
+		$data['username'] = $session_data['username'];
 		$this->load->view('task_detail', $data);
 	}
-	
-	function edit_task($id){
-		$data = $this->populate_data_array($id);
-		$this->load->view('task_form', $data);
-	}
-	 
-	
-	
-	/****** private functions ******/
 	
 	function populate_data_array($task_id = null){
 		// one master array, returned at the end
 		$data = array();
 		// property of task
-		$task_properties = array("id_task", "title", "desc", "deadline", "id_priority", "assigned_user", "id_assigned_user");
+		$task_properties = array("id", "title", "desc", "deadline", "id_priority", "assigned_user");
 		// get task or null
 		$task = $task_id ? $this->get_task($task_id) : null;
 		
@@ -115,10 +130,10 @@ class Task extends CI_Controller {
 		
 		return $data;
 	}
-	 
+	
 	function get_task($id){
 		try {
-			$task = $this->db->query("SELECT users.username as assigned_user, users.id as id_assigned_user, tasks.id as id_task, tasks.title, tasks.desc, tasks.created, tasks.deadline, priority.id as id_priority, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE tasks.id = ".$id."");
+			$task = $this->db->query("SELECT users.username, users.id as assigned_user, tasks.id, tasks.title, tasks.desc, tasks.created, tasks.deadline, priority.priority, priority.id as id_priority, state.state FROM tasks LEFT JOIN users ON tasks.id_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE tasks.id = ".$id."");
 		} catch (Exception $e) {
 			  print_r($e);
 		}

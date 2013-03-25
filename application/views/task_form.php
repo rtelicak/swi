@@ -8,7 +8,7 @@
             </div>
             <ul class="breadcrumb">
                 <li><a href="home">Úlohy</a> <span class="divider">/</span></li>
-                <li class="active">Nová úloha</li>
+                <li class="active"><?php echo is_numeric($id_task) ? "Upravenie úlohy" : "Nová úloha"; ?></li>
             </ul>
             <div class="container-fluid">
                 <div class="row-fluid">
@@ -19,17 +19,18 @@
                             <div class="tab-pane active in" id="home">
                                 <?php echo validation_errors(); ?>
 								<?php echo form_open('task/save'); ?>
+									<input name="id_task" type="hidden" value="<?php echo $id_task ?>">
                                     <label>Názov</label>
-                                    <input name="title" type="text" value="Lorem ipsum dolor sit amet, consectetur adipiscing elit." class="input-xxlarge">
+                                    <input name="title" type="text" class="input-xxlarge" value="<?php echo $title; ?>">
                                     <label>Popis úlohy</label>
-                                    <textarea name="desc" value="popis" rows="3" class="input-xxlarge">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et metus tellus. Cras pretium ligula lorem, ac bibendum metus. Curabitur vitae orci eu metus ultricies pharetra at ac tellus. Nam hendrerit gravida est, placerat pulvinar quam mollis commodo. Quisque non feugiat nisl. Sed sodales, sapien non ornare tincidunt, risus mi ornare diam, a tristique magna nunc sed magna. Nulla et nisi ac metus venenatis tincidunt eget quis mauris. Pellentesque felis nulla, tristique fringilla congue ac, accumsan at ante. Morbi condimentum tempus iaculis. Nullam varius nulla non mi tincidunt vitae cursus nisl lobortis. Proin pharetra rhoncus velit, eu vehicula purus rhoncus vel. Fusce lacinia, massa id imperdiet volutpat, diam magna vehicula metus, et viverra dui lorem et arcu. Quisque at quam tortor, eget pellentesque dolor. Morbi id neque nisi. 
+                                    <textarea name="desc" value="popis" rows="3" class="input-xxlarge"><?php echo $desc; ?>
 									</textarea>
                                     <label>Priradený používateľ</label>
-									<?php echo form_dropdown('user', $users); ?>
+									<?php echo form_dropdown('id_assigned_user', $users, $id_assigned_user); ?>
                                     <label>Priorita</label>
-									<?php echo form_dropdown('priority', $priorities); ?>
+									<?php echo form_dropdown('id_priority', $priorities, $id_priority); ?>
                                     <label>Deadline</label>
-                                    <input name="deadline" type="text" value="20.04.2013" class="input-large">
+                                    <input name="deadline" type="text" class="input-large" value="<?php echo $deadline; ?>">
 				                    <div class="btn-toolbar">
 				                        <button type="submit" class="btn btn-primary"><i class="icon-save"></i> Uložiť / Aktualizovať</button>
 				                        <a href="#myModal" data-toggle="modal" class="btn btn-warning"><i class="icon-ban-circle"></i> Zrušiť</a>

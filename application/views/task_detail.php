@@ -26,7 +26,7 @@
                             <button class="btn btn-success"><i class="icon-ok"></i> Vyriešiť úlohu</button>
                             <button class="btn btn-primary"><i class="icon-bar-chart"></i> Začať pracovať na úlohe</button>
                             <button class="btn btn-primary"><i class="icon-off"></i> Ukončiť prácu na úlohe</button>
-							<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id ?>"><button class="btn btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
+							<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task ?>"><button class="btn btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
                         </div>
                         <h2>Komentáre</h2>
                         <div class="comments-cover">
