@@ -21,7 +21,7 @@
     <button class="btn btn-success"><i class="icon-user"></i> Nový používateľ</button>
   	<div class="btn-group right">
         <form class="search form-inline mb-0">
-            <input type="text" placeholder="Vyhľadávanie v používateľoch..">
+            <input type="text" placeholder="Vyhľadávanie medzi používateľmi..">
         </form>
   </div>
 </div>
