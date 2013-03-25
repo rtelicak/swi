@@ -21,12 +21,12 @@
     <button class="btn btn-success"><i class="icon-user"></i> Nový používateľ</button>
   	<div class="btn-group right">
         <form class="search form-inline mb-0">
-            <input type="text" placeholder="Vyhľadávanie v používateľoch..">
+            <input type="text" placeholder="Vyhľadávanie medzi používateľmi..">
         </form>
   </div>
 </div>
 <div class="">
-    <table class="table table-bordered table-striped">
+    <table id="userTable" class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>Používateľ</th>
@@ -37,15 +37,16 @@
               </thead>
               <tbody>
               <?php foreach ($users as $user): ?>
-					<tr>
-						<td width="55%" class="font-120"><a href=detail/<?=$user->id?>><?=$user->username?></a></td>
+					<tr class="line">
+						<td width="30%" class="font-120"><a href=detail/<?php echo $user->id?>><?php echo $user->username?></a></td>
 						<td>Celkovo <span class="badge badge-info">-</span> | Vyriešených <span class="badge badge-success">-</span> | Nevyriešených <span class="badge badge-important">-</span></td>
-						<td><a href="#stats" class="btn btn-link btn-small"><i class="icon-bar-chart"></i> Zobraziť</a></td>
-						<td width="15%">
+						<td><a href="#stats" class="btn btn-link btn-small stats"><i class="icon-bar-chart"></i> <span>Zobraziť</span></a></td>
+						<td width="25%">
                         	<a href="#<?=$user->id?>" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
                         	<a href="#<?=$user->id?>" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
                         </td> 
 					</tr>
+                    <tr class='stats' style="display:none;"><td colspan='4'>Stats</td></tr>
 				<?php endforeach; ?>
               </tbody>
             </table>
@@ -74,10 +75,7 @@
         <button class="btn btn-danger" data-dismiss="modal">Delete</button>
     </div>
 </div>
-
-
-                    
-                    <footer>
+         <footer>
                         <hr>
                         <p class="pull-right">
                         Task manager v1.1
@@ -94,6 +92,23 @@
             $(function() {
                 $('.demo-cancel-click').click(function(){return false;});
             });
+			$(function () {
+					$("#userTable", "body").on({
+						'click': function (event) {
+							event.preventDefault();
+							var content = $(this).find("span");
+							if(content.text()==='Zobraziť') {
+								content.text("Skryť");
+							}
+							else {
+								content.text("Zobraziť");
+							}
+
+							$(this).closest("tr.line").nextUntil("tr.line").toggle("fast");
+						}
+					},
+						"a.stats", null);
+				});
         </script>
     </body>
 </html>
