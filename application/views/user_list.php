@@ -36,20 +36,70 @@
                 </tr>
               </thead>
               <tbody>
-              <?php foreach ($users as $user): ?>
+              <?php
+			  $i=0;
+			  foreach ($users as $user): ?>
 					<tr class="line">
 						<td width="30%" class="font-120"><a href=detail/<?php echo $user->id?>><?php echo $user->username?></a></td>
 						<td>Celkovo <span class="badge badge-info">-</span> | Vyriešených <span class="badge badge-success">-</span> | Nevyriešených <span class="badge badge-important">-</span></td>
-						<td><a href="#stats" class="btn btn-link btn-small stats"><i class="icon-bar-chart"></i> <span>Zobraziť</span></a></td>
+						<td><a href="#stats" class="btn btn-link btn-small stats" onClick="getStats(<?php echo $user->id?>,<?php echo $i?>)"><i class="icon-bar-chart"></i> <span>Zobraziť</span></a></td>
 						<td width="25%">
-                        	<a href="#<?=$user->id?>" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
-                        	<a href="#<?=$user->id?>" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
+                        	<a href="#<?php echo $user->id?>" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
+                        	<a href="#<?php echo $user->id?>" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
                         </td> 
 					</tr>
-                    <tr class='stats' style="display:none;"><td colspan='4'>Stats</td></tr>
-				<?php endforeach; ?>
+                    <tr class='stats' style="display:none;"><td id="statscol<?php echo $i?>" colspan='4'>Stats</td></tr>
+				<?php
+				$i++;
+				endforeach; ?>
               </tbody>
             </table>
+            <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+            <script type="text/javascript">
+				function getStats(uid, row)
+				{   var xmlhttp;
+					if (uid.length==0)
+					{    document.getElementById("statscol"+row).innerHTML="";
+						 return;
+					}
+					if (window.XMLHttpRequest)
+					{    xmlhttp=new XMLHttpRequest(); // kod pre IE7+, Firefox, Chrome, Opera, Safari
+					}
+					else
+					{    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); // kod pre IE6, IE5
+					}
+					xmlhttp.onreadystatechange=function()
+					{
+						 if (xmlhttp.readyState==4 && xmlhttp.status==200)
+						 {
+						document.getElementById("statscol"+row).innerHTML=xmlhttp.responseText;
+						drawChart("statscol"+row, "test");
+						 }
+					}
+					xmlhttp.open("GET","<?php echo base_url() ?>application/webservices/getStats.php?uid="+uid,true);
+					xmlhttp.send();
+				}
+				
+				google.load("visualization", "1", {packages:["corechart"]});
+				function drawChart(container, title) {
+					var data = google.visualization.arrayToDataTable([
+					  ['Task', 'Hours per Day'],
+					  ['Work',     11],
+					  ['Eat',      2],
+					  ['Commute',  2],
+					  ['Watch TV', 2],
+					  ['Sleep',    7]
+					]);
+			
+					var options = {
+					  title: title
+					};
+			
+					var chart = new google.visualization.PieChart(document.getElementById(container));
+					chart.draw(data, options);
+				  }
+
+			</script>
 </div>
 <div class="pagination">
     <ul>
