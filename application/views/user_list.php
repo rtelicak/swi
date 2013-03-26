@@ -72,8 +72,10 @@
 					{
 						 if (xmlhttp.readyState==4 && xmlhttp.status==200)
 						 {
-						document.getElementById("statscol"+row).innerHTML=xmlhttp.responseText;
-						drawChart("statscol"+row, "test");
+						//document.getElementById("statscol"+row).innerHTML=xmlhttp.responseText;
+						//drawChart("statscol"+row, "test");
+						var obj = JSON.parse(xmlhttp.responseText); 
+						drawChart("statscol"+row, "Stav používateľských taskov:",obj);
 						 }
 					}
 					xmlhttp.open("GET","<?php echo base_url() ?>application/webservices/getStats.php?uid="+uid,true);
@@ -81,18 +83,25 @@
 				}
 				
 				google.load("visualization", "1", {packages:["corechart"]});
-				function drawChart(container, title) {
-					var data = google.visualization.arrayToDataTable([
-					  ['Task', 'Hours per Day'],
-					  ['Work',     11],
-					  ['Eat',      2],
-					  ['Commute',  2],
-					  ['Watch TV', 2],
-					  ['Sleep',    7]
-					]);
-			
+				function drawChart(container, title, obj) {
+					var data = [];
+					data.push(['Task priority', 'Count']);
+					
+					// parse to apropriate format for pie chart ... ugly as shit
+					for (var prop in obj){
+						if(obj.hasOwnProperty(prop)){
+							var tmp = [];
+							tmp.push(prop, parseInt(obj[prop]));
+							data.push(tmp);
+						} 
+					}
+					
+					var data = google.visualization.arrayToDataTable(data);
+					
 					var options = {
-					  title: title
+						title: title,
+						'width':450,
+	                   'height':450
 					};
 			
 					var chart = new google.visualization.PieChart(document.getElementById(container));
