@@ -101,7 +101,7 @@
 					var options = {
 						title: title,
 						'width':450,
-	                   'height':450
+	                   'height':330
 					};
 			
 					var chart = new google.visualization.PieChart(document.getElementById(container));
