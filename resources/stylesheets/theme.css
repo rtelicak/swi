@@ -859,4 +859,18 @@ span.username {
 	width: 350px;
 }
 
+.stats div {
+	float: left !important;
+}
+
+.stats div.clear {
+	float: none !important;
+}
+
+div.load {
+	text-align:center;
+	padding-top: 25px;
+	float: none !important;
+}
+
 /** END CUSTOM **/

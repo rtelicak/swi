@@ -42,73 +42,18 @@
 					<tr class="line">
 						<td width="30%" class="font-120"><a href=detail/<?php echo $user->id?>><?php echo $user->username?></a></td>
 						<td>Celkovo <span class="badge badge-info">-</span> | Vyriešených <span class="badge badge-success">-</span> | Nevyriešených <span class="badge badge-important">-</span></td>
-						<td><a href="#stats" class="btn btn-link btn-small stats" onClick="getStats(<?php echo $user->id?>,<?php echo $i?>)"><i class="icon-bar-chart"></i> <span>Zobraziť</span></a></td>
+						<td><a href="#stats" class="btn btn-link btn-small stats" onClick="setStats(<?php echo $user->id?>,<?php echo $i?>)"><i class="icon-bar-chart"></i> <span>Zobraziť</span></a></td>
 						<td width="25%">
                         	<a href="#<?php echo $user->id?>" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
                         	<a href="#<?php echo $user->id?>" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
                         </td> 
 					</tr>
-                    <tr class='stats' style="display:none;"><td id="statscol<?php echo $i?>" colspan='4'>Stats</td></tr>
+                    <tr class='stats' style="display:none;"><td id="statscol<?php echo $i?>" colspan='4'><div>&nbsp;</div><div>&nbsp;</div><div class="clear">&nbsp;</div></td></tr>
 				<?php
 				$i++;
 				endforeach; ?>
               </tbody>
             </table>
-            <script type='text/javascript' src='https://www.google.com/jsapi'></script>
-            <script type="text/javascript">
-				function getStats(uid, row)
-				{   var xmlhttp;
-					if (uid.length==0)
-					{    document.getElementById("statscol"+row).innerHTML="";
-						 return;
-					}
-					if (window.XMLHttpRequest)
-					{    xmlhttp=new XMLHttpRequest(); // kod pre IE7+, Firefox, Chrome, Opera, Safari
-					}
-					else
-					{    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); // kod pre IE6, IE5
-					}
-					xmlhttp.onreadystatechange=function()
-					{
-						 if (xmlhttp.readyState==4 && xmlhttp.status==200)
-						 {
-						//document.getElementById("statscol"+row).innerHTML=xmlhttp.responseText;
-						//drawChart("statscol"+row, "test");
-						var obj = JSON.parse(xmlhttp.responseText); 
-						drawChart("statscol"+row, "Stav používateľských taskov:",obj);
-						 }
-					}
-					xmlhttp.open("GET","<?php echo base_url() ?>application/webservices/getStats.php?uid="+uid,true);
-					xmlhttp.send();
-				}
-				
-				google.load("visualization", "1", {packages:["corechart"]});
-				function drawChart(container, title, obj) {
-					var data = [];
-					data.push(['Task priority', 'Count']);
-					
-					// parse to apropriate format for pie chart ... ugly as shit
-					for (var prop in obj){
-						if(obj.hasOwnProperty(prop)){
-							var tmp = [];
-							tmp.push(prop, parseInt(obj[prop]));
-							data.push(tmp);
-						} 
-					}
-					
-					var data = google.visualization.arrayToDataTable(data);
-					
-					var options = {
-						title: title,
-						'width':450,
-	                   'height':330
-					};
-			
-					var chart = new google.visualization.PieChart(document.getElementById(container));
-					chart.draw(data, options);
-				  }
-
-			</script>
 </div>
 <div class="pagination">
     <ul>
@@ -163,11 +108,78 @@
 								content.text("Zobraziť");
 							}
 
-							$(this).closest("tr.line").nextUntil("tr.line").toggle("fast");
+							$(this).closest("tr.line").nextUntil("tr.line").toggle();
 						}
 					},
 						"a.stats", null);
 				});
         </script>
+        <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+            <script type="text/javascript">
+			function setStats(uid, row)
+				{
+					document.getElementById("statscol"+row).innerHTML="<div class='load'><img src='<?php echo base_url() ?>resources/images/load.gif' /></div><div>&nbsp;</div><div class='clear'>&nbsp;</div>";
+					window.setTimeout(function(){getStats(uid, row)},1500)
+				}
+				function getStats(uid, row)
+				{   var xmlhttp;
+				
+					if (uid.length==0)
+					{    document.getElementById("statscol"+row).innerHTML="";
+						 return;
+					}
+					if (window.XMLHttpRequest)
+					{    xmlhttp=new XMLHttpRequest(); // kod pre IE7+, Firefox, Chrome, Opera, Safari
+					}
+					else
+					{    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); // kod pre IE6, IE5
+					}
+					xmlhttp.onreadystatechange=function()
+					{
+						 if (xmlhttp.readyState==4 && xmlhttp.status==200)
+						 {
+						//document.getElementById("statscol"+row).innerHTML=xmlhttp.responseText;
+						var cont = document.getElementById("statscol"+row);
+						var obj = JSON.parse(xmlhttp.responseText);
+						
+						var tasks = obj["tasks"];
+						var state = obj["state"];
+						
+						//console.log(cont.childNodes[0]);
+						drawChart(cont.childNodes[0], "Stav používateľských taskov:",tasks);
+						drawChart(cont.childNodes[1], "Status používateľských taskov:",state);
+						 }
+					}
+					xmlhttp.open("GET","<?php echo base_url() ?>application/webservices/getStats.php?uid="+uid,true);
+					xmlhttp.send();
+				}
+				
+				google.load("visualization", "1", {packages:["corechart"]});
+				function drawChart(container, title, obj) {
+					var data = [];
+					data.push(['Task priority', 'Count']);
+					
+					// parse to apropriate format for pie chart ... ugly as shit
+					for (var prop in obj){
+						if(obj.hasOwnProperty(prop)){
+							var tmp = [];
+							tmp.push(prop, parseInt(obj[prop]));
+							data.push(tmp);
+						} 
+					}
+					
+					var data = google.visualization.arrayToDataTable(data);
+					
+					var options = {
+						title: title,
+						'width':450,
+	                   'height':330
+					};
+			
+					var chart = new google.visualization.PieChart(container);
+					chart.draw(data, options);
+				  }
+
+			</script>
     </body>
 </html>

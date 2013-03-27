@@ -23,11 +23,31 @@ $uid = $_GET['uid'];
 			$tasks[$task['priority']] = $task['count'];
 		}
 	}   
+	
+	// create query to get states
+	$qry =  "SELECT tasks.id AS id, state.state AS state, COUNT(state.state) AS count
+			FROM tasks 
+			LEFT JOIN state ON tasks.id_state = state.id
+			WHERE id_assigned_user = ".$uid."
+			GROUP BY state.state";
+	$result = mysql_query($qry,$link) or die('Errant query:  '.$qry);
+	
+	// create one array for states
+	$states = array();
+	if(mysql_num_rows($result)) { 
+		while($state = mysql_fetch_assoc($result)) {
+			$states[$state['state']] = $state['count'];
+		}
+	}
+	
+	$out = array('tasks' => $tasks, 'state' => $states);
+	//var_dump( $out );
+	
 	header('Content-type: application/json');
-	echo json_encode($tasks);
+	echo json_encode($out);
 	mysql_close($link);
+	
 
-	//var_dump( $tasks );
 
 
 ?>
