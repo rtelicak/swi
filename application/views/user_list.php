@@ -116,14 +116,22 @@
         </script>
         <script type='text/javascript' src='https://www.google.com/jsapi'></script>
             <script type="text/javascript">
+			/*
+			*
+			* WELCOME DEAR CODE VIEWER! YOU SHALL PASS NOW!
+			* For your mood improvement in dark coding times: http://www.mojevideo.sk/video/18925/pokazene_kozy.html
+			*
+			*/
 			function setStats(uid, row)
 				{
+					// Create preloader and wait 1.5s for AJAX call
 					document.getElementById("statscol"+row).innerHTML="<div class='load'><img src='<?php echo base_url() ?>resources/images/load.gif' /></div><div>&nbsp;</div><div class='clear'>&nbsp;</div>";
 					window.setTimeout(function(){getStats(uid, row)},1500)
 				}
 				function getStats(uid, row)
 				{   var xmlhttp;
-				
+					
+					// Check for user id
 					if (uid.length==0)
 					{    document.getElementById("statscol"+row).innerHTML="";
 						 return;
@@ -139,15 +147,20 @@
 						 if (xmlhttp.readyState==4 && xmlhttp.status==200)
 						 {
 						//document.getElementById("statscol"+row).innerHTML=xmlhttp.responseText;
+						
+						// Charts container
 						var cont = document.getElementById("statscol"+row);
+						
+						// Get JSON response
 						var obj = JSON.parse(xmlhttp.responseText);
 						
+						// Create data vars for charts from JSON response
 						var tasks = obj["tasks"];
 						var state = obj["state"];
 						
-						//console.log(cont.childNodes[0]);
-						drawChart(cont.childNodes[0], "Stav používateľských taskov:",tasks);
-						drawChart(cont.childNodes[1], "Status používateľských taskov:",state);
+						// Draw nice charts, this is so freak'in awesome! 
+						drawChart(cont.childNodes[0], "Stav používateľových taskov:",tasks);
+						drawChart(cont.childNodes[1], "Status používateľových taskov:",state);
 						 }
 					}
 					xmlhttp.open("GET","<?php echo base_url() ?>application/webservices/getStats.php?uid="+uid,true);
@@ -159,7 +172,6 @@
 					var data = [];
 					data.push(['Task priority', 'Count']);
 					
-					// parse to apropriate format for pie chart ... ugly as shit
 					for (var prop in obj){
 						if(obj.hasOwnProperty(prop)){
 							var tmp = [];
