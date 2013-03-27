@@ -14,5 +14,7 @@
         <li ><a href="list.html">Prehľad mojich úloh <span class="label label-info">+1</span></a></li>
         <li ><a href="<?php echo base_url() ?>task/add_task">Pridať novú úlohu</a></li>
     </ul>
-    <a href="<?php echo base_url() ?>home/logout" class="nav-header" ><i class="icon-user"></i>Odhlásenie</a>
+   	<a href="<?php echo base_url() ?>user/user_list" class="nav-header" ><i class="icon-user"></i>Používatelia</a>
+    <a href="<?php echo base_url() ?>home/logout" class="nav-header" ><i class="icon-ban-circle"></i>Odhlásenie</a>
+
 </div>
