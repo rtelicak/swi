@@ -15,6 +15,8 @@ class Home extends CI_Controller {
 			$data['username'] = $session_data['username']; 
 			$result = $this->user->getLastLogin($session_data['id']); 
 			$data['lastLogin'] = $result->lastLogin;
+			$data = $this->get_dashboard_tasks($data);
+			// echo '<pre>';print_r($data);echo'</pre>';exit;
 			$this->load->view('home_view', $data);
 		}
 		else{
@@ -22,7 +24,7 @@ class Home extends CI_Controller {
 			redirect('login', 'refresh');
 		}
 	}
-
+	
 	function logout(){
 		$this->session->unset_userdata('logged_in');
 		session_destroy();
@@ -31,6 +33,33 @@ class Home extends CI_Controller {
 	
 	function displayTaskForm(){
 		$this->load->view('task_form');
-	} 
+	}
+	
+	function get_dashboard_tasks($data){
+		$query = $this->db->query("SELECT id, title, deadline, id_state FROM tasks ORDER BY created DESC LIMIT 6");
+		$result = $query->result();
+		$tasks = array();
+
+		foreach ($result as $task => $value) { 
+			$tasks[] = (array) $value;
+		}
+		
+		$data['tasks'] = $tasks;
+		return $data;
+	}       
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 ?>

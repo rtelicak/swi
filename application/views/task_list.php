@@ -14,7 +14,7 @@
                 <div class="row-fluid">
                     <div class="btn-toolbar">
                         <a href="<?php echo base_url() ?>task/add_task"><button class="btn btn-primary"><i class="icon-plus"></i> Nová úloha</button></a>
-                        <button class="btn btn-primary"><i class="icon-check"></i> Zobraziť len moje úlohy</button>
+                        <a href="<?php echo base_url() ?>task/task_list/<?php echo $user_id ?>"><button class="btn btn-primary"><i class="icon-check"></i> Zobraziť len moje úlohy</button></a>
                         <button class="btn btn-danger"><i class="icon-time"></i> Zobraziť úlohy pred deadlinom</button>
                         <div class="btn-group right">
                             <form class="search form-inline mb-0">

@@ -15,8 +15,13 @@ class Task extends CI_Controller {
 		// $this->load->view('task_list');
 	}
 	
-	function task_list(){              
-		$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id");
+	function task_list($id = null){
+		if ($id != null){
+			$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE users.id = ".$id."");
+		} else{
+			$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id ORDER BY tasks.created DESC");
+		}
+
 		$tasks = array();
 		foreach ($query->result() as $row){
 			$tasks[] = $row;
@@ -24,8 +29,10 @@ class Task extends CI_Controller {
 		
 		$data = array();
 		$data['tasks'] = $tasks;
-		$session_data = $this->session->userdata('logged_in');  
+		$session_data = $this->session->userdata('logged_in');
+		// print_r($session_data);exit;  
 		$data['username'] = $session_data['username']; 
+		$data['user_id'] = $session_data['id'];
 		$this->load->view('task_list', $data);
 	}
 	

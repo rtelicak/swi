@@ -34,6 +34,13 @@ class User extends CI_Controller {
 		$session_data = $this->session->userdata('logged_in');  
 		$data['username'] = $session_data['username']; 
 		$this->load->view('user_list', $data);
+	}
+	
+	function detail($id_user){ 
+		$data = array();
+		$session_data = $this->session->userdata('logged_in');  
+		$data['username'] = $session_data['username']; 
+		$this->load->view('user_detail', $data);
 	} 
 	
 	function debug($data){

@@ -13,7 +13,7 @@
                 <h1 class="page-title">Dashboard</h1>
             </div>
             <ul class="breadcrumb">
-                <li><a href="index.html">Domov</a> <span class="divider">/</span></li>
+                <li><a href="<?php echo base_url() ?>home">Domov</a> <span class="divider">/</span></li>
                 <li class="active">Dashboard</li>
             </ul>
             <div class="container-fluid">
@@ -35,39 +35,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></td>
-                                            <td>14.03.2013</td>
-                                            <td><span class="label label-important">Nevyriešená</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Sed eget elit lectus, sit amet laoreet est.</a></td>
-                                            <td>20.03.2013</td>
-                                            <td><span class="label label-success">Vyriešená</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Curabitur non lectus lorem, a malesuada massa.</a></td>
-                                            <td>21.03.2013</td>
-                                            <td><span class="label label-success">Vyriešená</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Sed in odio nec libero adipiscing tristique.</a></td>
-                                            <td>29.03.2013</td>
-                                            <td><span class="label label-success">Vyriešená</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Vivamus bibendum arcu ut dui molestie elementum commodo ligula venenatis.</a></td>
-                                            <td>01.04.2013</td>
-                                            <td><span class="label label-important">Nevyriešená</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Etiam augue mi, cursus at elementum ut, malesuada ac leo.</a></td>
-                                            <td>17.04.2013</td>
-                                            <td><span class="label label-success">Vyriešená</span></td>
-                                        </tr>
+										<?php foreach ($tasks as $task => $value): ?>
+											<tr>
+												<td><a href="<?php echo base_url(); ?>task/detail/<?php print_r($value['id']) ?>"><?php print_r($value['title']) ?></a></td>
+												<td><?php print_r($value['deadline']); ?></td>
+												<td>
+												<?php 
+													if ($value['id_state'] != 5){ //ak je solved
+														echo "<span class=\"label label-important\">Nevyriešená</span>";
+													} else {
+														echo "<span class=\"label label-success\">Vyriešená</span>";
+													}
+												?>
+												</td>
+											</tr>
+										<?php endforeach ?>
                                     </tbody>
                                 </table>
-                                <p><a href="list.html" class="btn btn-link"><i class="icon-th-list"></i> Zobraziť všetky</a></p>
+                                <p><a href="<?php echo base_url() ?>task/task_list" class="btn btn-link"><i class="icon-th-list"></i> Zobraziť všetky</a></p>
                             </div>
                         </div>
                     </div>
