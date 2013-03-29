@@ -23,8 +23,7 @@
                                     <label>Názov</label>
                                     <input name="title" type="text" class="input-xxlarge" value="<?php echo $title; ?>">
                                     <label>Popis úlohy</label>
-                                    <textarea name="desc" value="popis" rows="3" class="input-xxlarge"><?php echo $desc; ?>
-									</textarea>
+                                    <textarea name="desc" value="popis" rows="3" class="input-xxlarge"><?php echo $desc; ?></textarea>
                                     <label>Priradený používateľ</label>
 									<?php echo form_dropdown('id_assigned_user', $users, $id_assigned_user); ?>
                                     <label>Priorita</label>

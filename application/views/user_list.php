@@ -48,7 +48,8 @@
                         	<a href="#<?php echo $user->id?>" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
                         </td> 
 					</tr>
-                    <tr class='stats' style="display:none;"><td id="statscol<?php echo $i?>" colspan='4'><div>&nbsp;</div><div>&nbsp;</div><div class="clear">&nbsp;</div></td></tr>
+                    	<tr class='stats' style="display:none;"><td id="statscol<?php echo $i?>" opened=false colspan='4' />
+					</tr>
 				<?php
 				$i++;
 				endforeach; ?>
@@ -101,13 +102,9 @@
 						'click': function (event) {
 							event.preventDefault();
 							var content = $(this).find("span");
-							if(content.text()==='Zobraziť') {
-								content.text("Skryť");
-							}
-							else {
-								content.text("Zobraziť");
-							}
-
+							var label = content.text() == 'Zobraziť' ? "Skryť" : "Zobraziť";
+							content.text(label);   
+							                      
 							$(this).closest("tr.line").nextUntil("tr.line").toggle();
 						}
 					},
@@ -115,83 +112,103 @@
 				});
         </script>
         <script type='text/javascript' src='https://www.google.com/jsapi'></script>
-            <script type="text/javascript">
-			/*
-			*
-			* WELCOME DEAR CODE VIEWER! YOU SHALL PASS NOW!
-			* For your mood improvement in dark coding times: http://www.mojevideo.sk/video/18925/pokazene_kozy.html
-			*
-			*/
-			function setStats(uid, row)
-				{
-					// Create preloader and wait 1.5s for AJAX call
-					document.getElementById("statscol"+row).innerHTML="<div class='load'><img src='<?php echo base_url() ?>resources/images/load.gif' /></div><div>&nbsp;</div><div class='clear'>&nbsp;</div>";
-					window.setTimeout(function(){getStats(uid, row)},1500)
-				}
-				function getStats(uid, row)
-				{   var xmlhttp;
-					
-					// Check for user id
-					if (uid.length==0)
-					{    document.getElementById("statscol"+row).innerHTML="";
-						 return;
-					}
-					if (window.XMLHttpRequest)
-					{    xmlhttp=new XMLHttpRequest(); // kod pre IE7+, Firefox, Chrome, Opera, Safari
-					}
-					else
-					{    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); // kod pre IE6, IE5
-					}
-					xmlhttp.onreadystatechange=function()
-					{
-						 if (xmlhttp.readyState==4 && xmlhttp.status==200)
-						 {
-						//document.getElementById("statscol"+row).innerHTML=xmlhttp.responseText;
-						
-						// Charts container
-						var cont = document.getElementById("statscol"+row);
-						
-						// Get JSON response
-						var obj = JSON.parse(xmlhttp.responseText);
-						
-						// Create data vars for charts from JSON response
-						var tasks = obj["tasks"];
-						var state = obj["state"];
-						
-						// Draw nice charts, this is so freak'in awesome! 
-						drawChart(cont.childNodes[0], "Stav používateľových taskov:",tasks);
-						drawChart(cont.childNodes[1], "Status používateľových taskov:",state);
-						 }
-					}
-					xmlhttp.open("GET","<?php echo base_url() ?>application/webservices/getStats.php?uid="+uid,true);
-					xmlhttp.send();
-				}
-				
-				google.load("visualization", "1", {packages:["corechart"]});
-				function drawChart(container, title, obj) {
-					var data = [];
-					data.push(['Task priority', 'Count']);
-					
-					for (var prop in obj){
-						if(obj.hasOwnProperty(prop)){
-							var tmp = [];
-							tmp.push(prop, parseInt(obj[prop]));
-							data.push(tmp);
-						} 
-					}
-					
-					var data = google.visualization.arrayToDataTable(data);
-					
-					var options = {
-						title: title,
-						'width':450,
-	                   'height':330
-					};
-			
-					var chart = new google.visualization.PieChart(container);
-					chart.draw(data, options);
-				  }
+		<script type="text/javascript">
+		/*
+		*
+		* WELCOME DEAR CODE VIEWER! YOU SHALL PASS NOW!
+		* For your mood improvement in dark coding times: http://www.mojevideo.sk/video/18925/pokazene_kozy.html
+		*
+		*/
+		function setStats(uid, row){
+			var isOpened = $("#statscol"+row).attr("opened");
 
-			</script>
+			// quick return if we're just closing row
+			if (isOpened == "false"){
+				$("#statscol"+row).attr("opened", true);
+			}else{
+				$("#statscol"+row).attr("opened", false);
+				return;
+			}
+			
+			// add load class
+			$("#statscol"+row).addClass("load");
+			getStats(uid, row);
+		}
+			
+		function getStats(uid, row){   
+			var xmlhttp; 
+			
+			// Check for user id - quick return
+			if (uid.length == 0){
+				document.getElementById("statscol"+row).innerHTML="";
+				return;
+			} 
+			
+			if (window.XMLHttpRequest){
+				xmlhttp=new XMLHttpRequest(); // kod pre IE7+, Firefox, Chrome, Opera, Safari
+			}
+			else{    
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); // kod pre IE6, IE5
+			}
+			
+			xmlhttp.open("GET","<?php echo base_url() ?>application/webservices/getStats.php?uid="+uid,true);
+			xmlhttp.send();
+			
+			xmlhttp.onreadystatechange=function(){ 
+				 if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+				
+					// Get JSON response
+					var obj = JSON.parse(xmlhttp.responseText);
+				
+					// Create data vars for charts from JSON response
+					var tasks = obj["tasks"];
+					var state = obj["state"];                         
+					
+					var chartWrapper = $("#statscol"+row);
+					
+					// if never been opened before, has no children
+					if(!chartWrapper.children().length){
+						$("#statscol"+row).append("<div></div><div></div>");
+					}
+					
+					// remove load class and draw charts
+					chartWrapper.removeClass("load");
+					var firstChartDiv = chartWrapper.children()[0];
+					var secondChartDiv = chartWrapper.children()[1];
+					
+					drawChart(firstChartDiv, "Stav používateľových taskov:", tasks);
+					drawChart(secondChartDiv, "Status používateľových taskov:", state);
+				}
+			}
+		}
+		
+		google.load("visualization", "1", {packages:["corechart"]});
+		
+		function drawChart(container, title, obj) {
+			var data = [];
+			data.push(['Task priority', 'Count']);
+			
+			for (var prop in obj){
+				if(obj.hasOwnProperty(prop)){
+					var tmp = [];
+					tmp.push(prop, parseInt(obj[prop]));
+					data.push(tmp);
+				} 
+			}
+			
+			var data = google.visualization.arrayToDataTable(data);
+			
+			var options = {
+				title: title,
+				'width': 450,
+				'height': 330,
+				is3D: true
+			};
+	
+			var chart = new google.visualization.PieChart(container);
+			chart.draw(data, options);
+		  }
+		</script>
+		
     </body>
 </html>

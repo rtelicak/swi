@@ -867,10 +867,14 @@ span.username {
 	float: none !important;
 }
 
-div.load {
-	text-align:center;
-	padding-top: 25px;
+td.load {
+	text-align: center;
+	padding: 30px 0px 20px 0px;
 	float: none !important;
+	background-image: url('../images/load.gif');
+	background-repeat: no-repeat;
+	background-position: 436px;
+	height: 40px;
 }
 
 /** END CUSTOM **/
