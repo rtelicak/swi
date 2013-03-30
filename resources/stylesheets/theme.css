@@ -856,7 +856,7 @@ span.username {
 }
 
 #commentarea {
-	width: 350px;
+	width: 505px;
 }
 
 .stats div {
@@ -891,12 +891,14 @@ td.load {
 	font-size: 14px;
 }
 
-.add-comment-wrapper{ 
+.add-comment-wrapper{
+	margin-left: 130px;
+	width: 550px; 
 	margin-top: 15px;
 	background: #F5F5F5;
 	border-radius: 4px 4px 4px 4px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset; 
-	border: 1px solid #CCC;
+	border: 2px solid #CCC;
 }
 
 .comment-btns{
