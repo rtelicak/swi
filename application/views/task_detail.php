@@ -11,24 +11,23 @@
         </ul>
         <div class="container-fluid">
             <div class="row-fluid">
-                <div class="alert alert-error">
+                <!-- <div class="alert alert-error">
                     <button type="button" class="close" data-dismiss="alert">×</button>
                     Tento task je tesne pred deadlinom.
-                </div>
+                </div> -->
                 <div class="item-content">
                     <div class="span9">
                         <h2><?php echo $title; ?></h2>
                         <p>
                             <?php echo $desc; ?>
                         </p>
-                        <h2>Akcie</h2>
-                        <div class="mb-30">
-                            <button class="btn btn-success"><i class="icon-ok"></i> Vyriešiť úlohu</button>
-                            <button class="btn btn-primary"><i class="icon-bar-chart"></i> Začať pracovať na úlohe</button>
-                            <button class="btn btn-primary"><i class="icon-off"></i> Ukončiť prácu na úlohe</button>
-							<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task ?>"><button class="btn btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
+                        <div class="mb-30" style="padding-top: 40px;">
+                            <button class="btn btn-small btn-success"><i class="icon-ok"></i> Vyriešiť úlohu</button>
+                            <button class="btn btn-small btn-primary"><i class="icon-bar-chart"></i> Začať pracovať na úlohe</button>
+                            <button class="btn btn-small btn-primary"><i class="icon-off"></i> Ukončiť prácu na úlohe</button>
+							<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task ?>"><button class="btn btn-small btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
                         </div>
-                        <h2>Komentáre</h2>
+                        <h3>Komentáre</h3>
                         <div class="comments-cover"> 
 							<?php foreach ($comments as $comment): ?>
 								<div class="well boot comment">
@@ -39,16 +38,20 @@
 	                            </div>
 							<?php endforeach ?>
                         </div> 
-                        <legend>Pridať nový komentár</legend>
-							<?php echo form_open('task/add_comment'); ?> 
-								<input type="hidden" name="id_user" id="id_user" value="<?php echo $id_logged_user ?>" />
-								<input type="hidden" name="id_task" id="id_task" value="<?php echo $id_task ?>" />
-	                        	<textarea name="body" id="commentarea" placeholder="Váš komentár.." rows="5" cols="25"></textarea>
-	                            <div class="form-actions pl-10">
-									<button type="submit" class="btn btn-success pull-left mr-10"><i class="icon-ok"></i> Pridať komentár</button>
-	    	                        <button type="button" class="btn btn-danger pull-left"><i class="icon-ban-circle"></i> Zmazať napísané</button>
-	                            </div>
-							</form>
+						<div class="comment-wrapper">
+							<div class="comment-box">
+	                        	<h4>Pridať nový komentár</h4>
+								<?php echo form_open('task/add_comment'); ?> 
+									<input type="hidden" name="id_user" id="id_user" value="<?php echo $id_logged_user ?>" />
+									<input type="hidden" name="id_task" id="id_task" value="<?php echo $id_task ?>" />
+		                        	<textarea name="body" id="commentarea" placeholder="Váš komentár.." rows="5" cols="25"></textarea>
+		                            <div class="comment-btns">
+										<button type="submit" class="btn btn-small btn-success pull-left mr-10"><i class="icon-ok"></i> Pridať komentár</button>
+		    	                        <button type="button" class="btn btn-small btn-danger pull-left"><i class="icon-ban-circle"></i> Zmazať napísané</button>
+		                            </div>
+								</form>
+							</div>
+						</div>
                     </div>
                     <div class="span3">
                         <div class="toc well boot">

@@ -878,13 +878,59 @@ td.load {
 } 
 
 .comment-date{
-	width: 150px;
 	float: right;
-	color: #B4ACAC;
+	color: #B4ACAC; 
+	font-size: 12px;
 } 
 
 .comment p{
 	padding-top: 10px;
+	font-size: 12px;
+}  
+
+.comment h4{
+	font-size: 14px;
 }
+
+.comment-wrapper{ 
+	margin-top: 15px;
+	background: #F5F5F5;
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset; 
+	border: 1px solid #CCC;
+}
+
+.comment-btns{
+	height: 38px;
+	padding-top: 12px;
+}
+
+.comment-box{
+	padding-left: 14px;
+} 
+
+.comment-box h4{
+	padding: 10px 0 10px 0;
+}
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /** END CUSTOM **/

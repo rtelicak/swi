@@ -132,11 +132,11 @@ class Task extends CI_Controller {
 	}
 	
 	function get_comments($id_task, $data){
-		$comments = $this->db->query("SELECT comments.id, comments.body, comments.dateTime, users.username as user FROM comments LEFT JOIN users ON comments.id_user = users.id WHERE id_task = ".$id_task."");
+		$comments = $this->db->query("SELECT comments.id, comments.body, comments.dateTime, users.username as user FROM comments LEFT JOIN users ON comments.id_user = users.id WHERE id_task = ".$id_task." ORDER BY comments.dateTime DESC");
 		$comments = $comments->result();
 		// print_r($comments); 
 		$data['comments'] = $comments;
-		
+
 		return $data;
 	}
 	 
