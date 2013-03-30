@@ -18,7 +18,7 @@
                 <div class="item-content">
                     <div class="span9">
                         <h2><?php echo $title; ?></h2>
-                        <p>
+                        <p style="width: 700px;">
                             <?php echo $desc; ?>
                         </p>
                         <div class="mb-30" style="padding-top: 40px;">
@@ -28,17 +28,20 @@
 							<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task ?>"><button class="btn btn-small btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
                         </div>
                         <h3>Komentáre</h3>
-                        <div class="comments-cover"> 
-							<?php foreach ($comments as $comment): ?>
-								<div class="well boot comment">
-									<div class="comment-date"><?php echo $comment->dateTime; ?></div>
-	                                <h4><?php echo $comment->user; ?></h3>
-	                                <p><?php echo $comment->body; ?></p>
-									
-	                            </div>
-							<?php endforeach ?>
-                        </div> 
-						<div class="comment-wrapper">
+                        <!-- <div class="comments-cover">  --> 
+							<ul class=comment-wrapper>
+								<?php foreach ($comments as $comment): ?>
+									<li class="comment">
+										<div class="comment-info">
+											<i class="icon-user"></i>&nbsp<?php echo $comment->user; ?></i><br/>
+											<small><?php echo $comment->dateTime; ?></small>
+											</div>
+										<div class="comment-bubble"><p><?php echo $comment->body; ?></p></div>
+									</li>
+								<?php endforeach ?>
+							</ul>
+                        <!-- </div>  -->
+						<!-- <div class="add-comment-wrapper">
 							<div class="comment-box">
 	                        	<h4>Pridať nový komentár</h4>
 								<?php echo form_open('task/add_comment'); ?> 
@@ -51,7 +54,7 @@
 		                            </div>
 								</form>
 							</div>
-						</div>
+						</div> -->
                     </div>
                     <div class="span3">
                         <div class="toc well boot">

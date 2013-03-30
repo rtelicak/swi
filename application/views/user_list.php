@@ -99,7 +99,7 @@
 							var label = content.text() == 'Zobraziť' ? "Skryť" : "Zobraziť";
 							content.text(label);   
 							                      
-							$(this).closest("tr.line").nextUntil("tr.line").toggle();
+							$(this).closest("tr.line").nextUntil("tr.line").toggle('slow');
 						}
 					},
 						"a.stats", null);
@@ -162,7 +162,7 @@
 					
 					// if never been opened before, has no children
 					if(!chartWrapper.children().length){
-						$("#statscol"+row).append("<div></div><div></div>");
+						$("#statscol"+row).append("<div style=\"width:50%;\"></div><div style=\"width:50%;\"></div>");
 					}
 					
 					// remove load class and draw charts
