@@ -59,7 +59,7 @@ class Task extends CI_Controller {
 				$this->db->update('tasks', $data);
 				
 				// redirect to task detail we just updated
-				$this->detail($id_task);
+				redirect("task/detail/".$id_task."", 'refresh');
 			} else{
 				// create task 
 				unset($data['id_task']);
@@ -82,7 +82,9 @@ class Task extends CI_Controller {
 			$data[$key] = $value;
 		} 
 		
-		$data = $this->populate_other_data($data);
+		$data = $this->populate_other_data($data); 
+		$data = $this->get_comments($id_task, $data);
+		// print_r($data);exit;
 		$this->load->view('task_detail', $data);
 	}
 	
@@ -90,8 +92,12 @@ class Task extends CI_Controller {
 		$data = $this->populate_data_array($id);
 		$this->load->view('task_form', $data);
 	}
-	 
 	
+	function add_comment(){
+		$_POST['dateTime'] = date("Y-m-d H:i:s");
+		$this->db->insert('comments', $_POST); 
+		redirect("task/detail/".$_POST['id_task']."", 'refresh');
+	}
 	
 	/****** private functions ******/
 	
@@ -117,8 +123,19 @@ class Task extends CI_Controller {
 		// other data required for view (fill selectboxes, send session data ...)
 		$data['users'] = $this->get_users();
 		$data['priorities'] = $this->get_priorities();
-		$session_data = $this->session->userdata('logged_in');  
+		$session_data = $this->session->userdata('logged_in');
+		// print_r($session_data);exit;
 		$data['username'] = $session_data['username'];
+		$data['id_logged_user'] = $session_data['id'];
+		
+		return $data;
+	}
+	
+	function get_comments($id_task, $data){
+		$comments = $this->db->query("SELECT comments.id, comments.body, comments.dateTime, users.username as user FROM comments LEFT JOIN users ON comments.id_user = users.id WHERE id_task = ".$id_task."");
+		$comments = $comments->result();
+		// print_r($comments); 
+		$data['comments'] = $comments;
 		
 		return $data;
 	}

@@ -875,6 +875,16 @@ td.load {
 	background-repeat: no-repeat;
 	background-position: 436px;
 	height: 40px;
+} 
+
+.comment-date{
+	width: 150px;
+	float: right;
+	color: #B4ACAC;
+} 
+
+.comment p{
+	padding-top: 10px;
 }
 
 /** END CUSTOM **/

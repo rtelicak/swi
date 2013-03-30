@@ -29,33 +29,26 @@
 							<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task ?>"><button class="btn btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
                         </div>
                         <h2>Komentáre</h2>
-                        <div class="comments-cover">
-                            <div class="well boot comment">
-                                <h4>
-                                User 1</h3>
-                                <p>Scallion burdock silver beet water spinach turnip watercress aubergine.</p>
-                            </div>
-                            <div class="well boot comment">
-                                <h4>
-                                User 2</h3>
-                                <p>Scallion burdock silver beet water spinach turnip watercress aubergine.</p>
-                            </div>
-                            <div class="well boot comment">
-                                <h4>
-                                User 1</h3>
-                                <p>Scallion burdock silver beet water spinach turnip watercress aubergine.</p>
-                            </div>
-                        </div>
-                        <form class="addcoment form-horizontal mt-30" method="post" action="#">
+                        <div class="comments-cover"> 
+							<?php foreach ($comments as $comment): ?>
+								<div class="well boot comment">
+									<div class="comment-date"><?php echo $comment->dateTime; ?></div>
+	                                <h4><?php echo $comment->user; ?></h3>
+	                                <p><?php echo $comment->body; ?></p>
+									
+	                            </div>
+							<?php endforeach ?>
+                        </div> 
                         <legend>Pridať nový komentár</legend>
-                        	<textarea id="commentarea" placeholder="Váš komentár.." rows="5" cols="25"></textarea>
-                            <div class="form-actions pl-10">
-	                            <button type="submit" class="btn btn-success pull-left mr-10"><i class="icon-ok"></i> Pridať komentár</button>
-    	                        <button type="button" class="btn btn-danger pull-left"><i class="icon-ban-circle"></i> Zmazať napísané</button>
-                            </div>
-                            <input type="hidden" name="userid" id="userid" value="" />
-                            <input type="hidden" name="taskid" id="taskid" value="" />
-                        </form>
+							<?php echo form_open('task/add_comment'); ?> 
+								<input type="hidden" name="id_user" id="id_user" value="<?php echo $id_logged_user ?>" />
+								<input type="hidden" name="id_task" id="id_task" value="<?php echo $id_task ?>" />
+	                        	<textarea name="body" id="commentarea" placeholder="Váš komentár.." rows="5" cols="25"></textarea>
+	                            <div class="form-actions pl-10">
+									<button type="submit" class="btn btn-success pull-left mr-10"><i class="icon-ok"></i> Pridať komentár</button>
+	    	                        <button type="button" class="btn btn-danger pull-left"><i class="icon-ban-circle"></i> Zmazať napísané</button>
+	                            </div>
+							</form>
                     </div>
                     <div class="span3">
                         <div class="toc well boot">
