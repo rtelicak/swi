@@ -891,6 +891,11 @@ td.load {
 	font-size: 14px;
 }
 
+.container-fluid h4{
+	margin: 0;
+	padding: 0;
+}
+
 .add-comment-wrapper{
 	margin-left: 130px;
 	width: 550px; 
