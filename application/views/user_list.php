@@ -33,10 +33,11 @@
 						<tbody>
 							<?php
 								$i=0;
-								foreach ($users as $user): ?>
+								foreach ($users as $user): 
+							?>
 							<tr class="line">
-								<td width="30%" class="font-120"><a href=detail/<?php echo $user->id?>><?php echo $user->username?></a></td>
-								<td>Celkovo <span class="badge badge-info">-</span> | Vyriešených <span class="badge badge-success">-</span> | Nevyriešených <span class="badge badge-important">-</span></td>
+								<td width="25%" class="font-120"><a href=detail/<?php echo $user->id?>><?php echo $user->username?></a></td>
+								<td>Celkovo <span class="badge badge-info"><?php echo $user->tasks['total'];?></span> | Vyriešených <span class="badge badge-success"><?php echo $user->tasks['resolved'];?></span> | Nevyriešených <span class="badge badge-important"><?php echo $user->tasks['unresolved'];?></span></td>
 								<td><a href="#stats" class="btn btn-link btn-small stats" onClick="setStats(<?php echo $user->id?>,<?php echo $i?>)"><i class="icon-bar-chart"></i> <span>Zobraziť</span></a></td>
 								<td width="25%">
 									<a href="#<?php echo $user->id?>" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
