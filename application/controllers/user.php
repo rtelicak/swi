@@ -48,9 +48,31 @@ class User extends CI_Controller {
 	function detail($id_user){ 
 		$data = array();
 		$session_data = $this->session->userdata('logged_in');  
-		$data['username'] = $session_data['username']; 
+		$data['username'] = $session_data['username'];
+		$data['user'] = $this->get_user($id_user);
+		$data['role'] = $this->get_role_list($id_user);
 		$this->load->view('user_detail', $data);
 	} 
+	
+	function get_role_list($id){
+		$query = $this->db->query("SELECT role FROM users WHERE id=".$id."");
+		$role = $query->row('role');
+		
+		$out = '<select name="user_role" name="user_role">';
+		if($role == 1) {
+			$out .= '<option value="1" selected="selected">Administrátor</option>';
+			$out .= '<option value="2">Používateľ</option>';
+		}
+		else {
+			$out .= '<option value="1">Administrátor</option>';
+			$out .= '<option value="2" selected="selected">Používateľ</option>';
+		}
+		$out .= "</select>";
+
+		//$this->debug($out);
+				
+		return $out;
+	}
 	
 	function debug($data){
 		echo '<pre>';
@@ -67,6 +89,16 @@ class User extends CI_Controller {
 		}
 		
 		return $result;
+	}
+	
+	function get_user($id) {
+		try {
+			$user = $this->db->query("SELECT * FROM users WHERE id=".$id."");
+		} catch (Exception $e) {
+			  print_r($e);
+		}
+		
+		return $user->row();
 	}
 
 }

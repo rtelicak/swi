@@ -3,7 +3,8 @@
 <?php include('includes/menu.php'); ?>
 <div class="content">
 	<div class="header">
-		<h1 class="page-title">Používateľ: Bender Rodriguez</h1>
+    	<?php // echo var_dump($user); ?>
+		<h1 class="page-title">Používateľ: <?php echo $user->username; ?></h1>
 	</div>
 	<ul class="breadcrumb">
 		<li><a href="<?php echo base_url() ?>home">Domov</a> <span class="divider">/</span></li>
@@ -17,33 +18,42 @@
 					<div class="tab-pane active in" id="home">
 						<form id="tab" class="form-horizontal" method="post" action="#">
 							<legend>Parametre používateľa</legend>
+                            <div class="alert alert-info">
+								<strong>Posledné prihlásenie:</strong> <?php echo $user->lastLogin; ?>
+				            </div>
 							<div class="control-group">
 								<label class="control-label" for="name">Prihlasovacie meno:</label>
 								<div class="controls">
-									<input type="text" id="name" placeholder="Meno používateľa" value="Bender Rodriguez" class="input-xlarge">
+									<input type="text" id="name" placeholder="Meno používateľa" value="<?php echo $user->username; ?>" class="input-xlarge">
 								</div>
 							</div>
 							<div class="control-group">
 								<label class="control-label" for="password">Heslo:</label>
 								<div class="controls">
-									<input type="password" id="password" placeholder="Heslo" value="123456" class="input-xlarge">
+									<input type="password" id="password" placeholder="Heslo" value="<?php echo $user->password; ?>" class="input-xlarge">
 								</div>
 							</div>
 							<div class="control-group">
 								<label class="control-label" for="passwordvalidate">Kontrola hesla:</label>
 								<div class="controls">
-									<input type="password" id="passwordvalidate" placeholder="Heslo" value="123456" class="input-xlarge">
+									<input type="password" id="passwordvalidate" placeholder="Heslo" value="<?php echo $user->password; ?>" class="input-xlarge">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="blocked">Rola:</label>
+								<div class="controls">
+									<?php echo $role; ?>
 								</div>
 							</div>
 							<div class="control-group">
 								<label class="control-label" for="blocked">Blokovaný:</label>
 								<div class="controls">
 									<label class="radio left mr-10">
-									<input type="radio" name="blocked" id="blocked" value="1" checked />
+									<input type="radio" name="blocked" id="blocked" value="1" <?php if($user->blocked == 1) { echo "checked"; }?> />
 									Áno
 									</label>
 									<label class="radio left pt-5">
-									<input type="radio" name="blocked" id="blocked" value="0" /> 
+									<input type="radio" name="blocked" id="blocked" value="0" <?php if($user->blocked == 0) { echo "checked"; }?> /> 
 									Nie
 									</label>
 								</div>
@@ -51,8 +61,9 @@
 							<div class="btn-toolbar">
 								<button class="btn btn-success"><i class="icon-save"></i> Uložiť / Aktualizovať</button>
 								<a href="#myModal" data-toggle="modal" class="btn btn-danger"><i class="icon-ban-circle"></i> Zmazať</a>
-								<button class="btn btn-primary"><i class="icon-tasks"></i> Návrat na zoznam</button>
+								<a href="<?php echo base_url() ?>user/user_list" class="btn btn-primary"><i class="icon-tasks"></i> Návrat na zoznam</a>
 							</div>
+                            <input type="hidden" value="<?php echo $user->id; ?>" name="id_user" name="id_user" />
 						</form> 
 					</div>
 				</div>
