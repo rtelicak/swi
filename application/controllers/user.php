@@ -12,13 +12,24 @@ class User extends CI_Controller {
 	
 	function user_list(){              
 
-		$query = $this->db->query("SELECT id, username FROM users");
+		$query = $this->db->query("SELECT id, username, blocked FROM users");
 		$userQuery = $query->result();
 
 		$query_tasks = $this->db->query("SELECT tasks.id_assigned_user AS id_user, tasks.id, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id");
 		$tasksQuery = $query_tasks->result();
 
 		foreach ($userQuery as $user) {
+			$user->action = array();
+			if($user->blocked==0) {
+				$user->action['operation'] = 1;
+				$user->action['btnTitle'] = "Zakázať";
+				$user->action['btnClass'] = "warning";
+			}
+			else {
+				$user->action['operation'] = 0;
+				$user->action['btnTitle'] = "Povoliť";
+				$user->action['btnClass'] = "success";
+			}
 			$user->tasks = array();
 			$user->tasks['resolved']=0;
 			$user->tasks['unresolved']=0;
@@ -42,6 +53,7 @@ class User extends CI_Controller {
 		$data['users'] = $userQuery;
 		$session_data = $this->session->userdata('logged_in');  
 		$data['username'] = $session_data['username']; 
+		
 		$this->load->view('user_list', $data);
 	}
 	
@@ -72,6 +84,60 @@ class User extends CI_Controller {
 		//$this->debug($out);
 				
 		return $out;
+	}
+	
+	function deleteUser() {
+		$id = $this->uri->segment(3);
+		
+		$session_data = $this->session->userdata('logged_in');  
+		if($session_data['id']==$id) {
+			$this->session->set_flashdata('error', '<strong>Tento používateľ je prihlásený!</strong> Nemôžete zmazať samého seba, keď ste prihlásený!');
+            redirect("user/user_list", "refresh");
+		}
+		
+		$query = $this->db->query("SELECT username FROM users WHERE id=".$id." ");
+		$userData = $query->result();
+		
+		//$this->db->delete('users', array('id' => $id));
+		
+		$msg = "Používateľ <strong>".$userData[0]->username."</strong> bol úspešne zmazaný! 
+		<br /> Treba však odkomentovať operáciu zmazania v kóde [controller=user line=84].";
+
+		$this->session->set_flashdata('message', $msg);
+		redirect("user/user_list", "refresh");
+	}
+	
+	function changeUserStatus() {
+		$id = $this->uri->segment(3);
+		$val = $this->uri->segment(4);
+		
+		$session_data = $this->session->userdata('logged_in');  
+		if($session_data['id']==$id) {
+			$this->session->set_flashdata('error', '<strong>Tento používateľ je prihlásený!</strong> Nemôžete zablokovať samého seba, keď ste prihlásený!');
+            redirect("user/user_list", "refresh");
+		}
+						
+		$data = array('blocked' => $val);
+		
+		$this->db->where('id', $id);
+		$result = $this->db->update('users', $data);
+		
+		if(!$result) {
+			$this->session->set_flashdata('error', '<strong>ERROR pri ukladaní dát do databázy</strong>');
+            redirect("user/user_list", "refresh");
+		}
+		
+		$query = $this->db->query("SELECT username FROM users WHERE id=".$id." ");
+		$userData = $query->result();
+		
+		$result = "Blokovaný";
+		if($val==0) { $result = "Povolený"; }
+				
+		$msg = "Prístup používateľa <strong>".$userData[0]->username."</strong> do task manažéra bol úspešne zmenený
+		na: <strong>".$result."</strong>";
+
+		$this->session->set_flashdata('message', $msg);
+		redirect("user/user_list", "refresh");
 	}
 	
 	function debug($data){

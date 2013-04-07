@@ -12,6 +12,18 @@
 		</ul>
 		<div class="container-fluid">
 			<div class="row-fluid">
+            	<?php 
+				if($this->session->flashdata('message')) {
+					echo '<div class="alert alert-info">';
+					echo $this->session->flashdata('message');
+					echo "</div>";
+				}
+				if($this->session->flashdata('error')) {
+					echo '<div class="alert alert-danger">';
+					echo $this->session->flashdata('error');
+					echo '</div>';
+				}
+				?>
 				<div class="btn-toolbar">
 					<button class="btn btn-success"><i class="icon-user"></i> Nový používateľ</button>
 					<div class="btn-group right">
@@ -40,8 +52,10 @@
 								<td>Celkovo <span class="badge badge-info"><?php echo $user->tasks['total'];?></span> | Vyriešených <span class="badge badge-success"><?php echo $user->tasks['resolved'];?></span> | Nevyriešených <span class="badge badge-important"><?php echo $user->tasks['unresolved'];?></span></td>
 								<td><a href="#stats" class="btn btn-link btn-small stats" onClick="setStats(<?php echo $user->id?>,<?php echo $i?>)"><i class="icon-bar-chart"></i> <span>Zobraziť</span></a></td>
 								<td width="25%">
-									<a href="#<?php echo $user->id?>" class="btn btn-warning btn-small"><i class="icon-ban-circle"></i> Zakázať prístup</a>
-									<a href="#<?php echo $user->id?>" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
+                                	<div class="btn-cover pull-right">
+									<a href="<?php echo base_url() ?>user/changeUserStatus/<?php echo $user->id?>/<?php echo $user->action['operation'];?>" class="btn btn-<?php echo $user->action['btnClass'];?> btn-small"><i class="icon-ban-circle"></i> <?php echo $user->action['btnTitle'];?> prístup</a>
+									<a href="<?php echo base_url() ?>user/deleteUser/<?php echo $user->id?>" class="btn btn-danger btn-small"><i class="icon-trash"></i> Zmazať</a>
+                                    </div>
 								</td>
 							</tr>
 							<tr class='stats' style="display:none;">
@@ -52,16 +66,6 @@
 								endforeach; ?>
 						</tbody>
 					</table>
-				</div>
-				<div class="pagination">
-					<ul>
-						<li><a href="#">Prev</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">Next</a></li>
-					</ul>
 				</div>
 				<div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-header">
