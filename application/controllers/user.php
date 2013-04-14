@@ -194,7 +194,7 @@ class User extends CI_Controller {
 		if ($this->form_validation->run() == FALSE){ 
 				// save failed, fill form with posted data
 				$data = $this->prepare_data_array($data);
-				$this->debug($data);
+				//$this->debug($data);
 				$this->load->view('user_detail', $data);
 		}else{
 			if ($data['id']){
