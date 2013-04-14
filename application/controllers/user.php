@@ -3,7 +3,9 @@ class User extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->helper('form');
+		$this->load->helper('form'); 
+		$this->load->library('form_validation');   
+	    $this->form_validation->set_rules('username', 'Používateľské meno', 'required');
 	}
 
 	function index(){
@@ -62,15 +64,22 @@ class User extends CI_Controller {
 		$session_data = $this->session->userdata('logged_in');  
 		$data['username'] = $session_data['username'];
 		$data['user'] = $this->get_user($id_user);
-		$data['role'] = $this->get_role_list($id_user);
+		$data['user']->role = $this->get_role_list($id_user);
+		$data['user']->add = false;
+		//$this->debug($data);
 		$this->load->view('user_detail', $data);
 	} 
 	
-	function get_role_list($id){
+	function get_role_list($id=NULL){
+		if($id) {
 		$query = $this->db->query("SELECT role FROM users WHERE id=".$id."");
 		$role = $query->row('role');
+		}
+		else {
+			$role=0;
+		}
 		
-		$out = '<select name="user_role" name="user_role">';
+		$out = '<select name="role" name="role">';
 		if($role == 1) {
 			$out .= '<option value="1" selected="selected">Administrátor</option>';
 			$out .= '<option value="2">Používateľ</option>';
@@ -166,6 +175,95 @@ class User extends CI_Controller {
 		
 		return $user->row();
 	}
+	
+	
+	function add_user(){                  
+		// TO DO - CHECK USER PERMISSION TO ADD USERS
+		
+		$data = $this->prepare_data_array();
+		$this->load->view('user_detail', $data);
+	}
+	
+	function save(){
+		$data = $_POST;
+		//$this->debug($data);
+		if($data['add']==1) {
+			$this->form_validation->set_rules('password', 'Heslo', 'trim|min_length[6]|matches[passwordReply]');
+			$this->form_validation->set_rules('passwordReply', 'Overenie hesla', 'trim');
+		}
+		if ($this->form_validation->run() == FALSE){ 
+				// save failed, fill form with posted data
+				$data = $this->prepare_data_array($data);
+				$this->debug($data);
+				$this->load->view('user_detail', $data);
+		}else{
+			if ($data['id']){
+				// update user  
+				$id_user = $data['id'];
+				unset($data['id_user']);  
+				unset($data['passwordReply']);
+				unset($data['add']);
+				
+				// perform update database
+				$this->db->where('id', $id_user);
+				$this->db->update('users', $data);
+				
+				$msg = "Používateľ <strong>".$data['username']."</strong> bol úspešne <strong>aktualizovaný</strong>";
+
+				$this->session->set_flashdata('message', $msg);
+				
+				// redirect to user detail we just updated
+				redirect("user/detail/".$id_user."", 'refresh');
+			} else{
+				// create user 
+				unset($data['id_user']);
+				unset($data['passwordReply']);
+				unset($data['add']);
+
+				$this->db->insert('users', $data);
+				$msg = "Používateľ <strong>".$data['username']."</strong> bol úspešne <strong>pridaný</strong>";
+
+				$this->session->set_flashdata('message', $msg);
+				
+				redirect('user/user_list', 'refresh');
+			}
+		}
+	}
+	
+	/****** private functions ******/
+	
+	function prepare_data_array($sentData = null){
+		$data = array();
+		$session_data = $this->session->userdata('logged_in');  
+		$data['username'] = $session_data['username'];
+		
+		if(!$sentData) {
+		$user_atts = array("id", "username", "password", "role", "blocked", "lastLogin");
+		
+		$data['user'] = new StdClass;
+		// fill master array with empty string
+		foreach ($user_atts as $key) {
+			$data['user']->$key = "";
+		}
+		
+		$data['user']->role= $this->get_role_list();
+		$data['user']->add=true;
+		
+		} else {
+			$data['user'] = new StdClass;
+				// fill master array with data
+			foreach ($sentData as $key => $value){
+				if($key=='role') {
+					$data['user']->$key = $this->get_role_list($value);
+				} else {
+					$data['user']->$key = $value;
+				}
+			}
+			
+		}
+		return $data;
+	}
+
 
 }
 ?>

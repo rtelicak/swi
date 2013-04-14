@@ -987,6 +987,9 @@ td.load {
 	margin: 0px;
 }
 
+.modal.fade.in {
+    top: 55% !important;
+}
 
 
 

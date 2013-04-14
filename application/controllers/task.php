@@ -172,5 +172,11 @@ class Task extends CI_Controller {
 		return $result;
 	}
 	
+	function debug($data){
+		echo '<pre>';
+		print_r($data);
+		echo '</pre>';
+	}
+	
 }
 ?>
