@@ -26,11 +26,6 @@
 				?>
 				<div class="btn-toolbar">
 					<a href="<?php echo base_url() ?>user/add_user" class="btn btn-success"><i class="icon-user"></i> Nový používateľ</a>
-					<div class="btn-group right">
-						<form class="search form-inline mb-0">
-							<input type="text" placeholder="Vyhľadávanie medzi používateľmi..">
-						</form>
-					</div>
 				</div>
 				<div class="">
 					<table id="userTable" class="table table-bordered table-striped">

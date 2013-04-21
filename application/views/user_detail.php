@@ -36,12 +36,12 @@
 					?>
 						<form id="tab" class="form-horizontal" method="post" action="<?php echo base_url() ?>user/save">
 							<legend>Parametre <?php if($user->add) { echo "nového"; } ?> používateľa</legend>
-                            <?php if(!$user->add) { ?>
+                            <?php if(!$user->add && $user->lastLogin) { ?>
                             <div class="alert alert-info">
 								<strong>Posledné prihlásenie:</strong> <?php if($user->lastLogin=='') { echo "Nikdy"; } else { echo $user->lastLogin; } ?>
 				            </div>
                             <?php } ?>
-                            <?php echo validation_errors(); ?>
+                            <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
                             <br />
 							<div class="control-group">
 								<label class="control-label" for="name">Prihlasovacie meno:</label>

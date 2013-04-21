@@ -5,6 +5,7 @@ class User extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('form'); 
 		$this->load->library('form_validation');   
+		$this->form_validation->set_rules('password', 'Password', 'required');
 	    $this->form_validation->set_rules('username', 'Používateľské meno', 'required');
 	}
 
@@ -176,6 +177,11 @@ class User extends CI_Controller {
 		return $user->row();
 	}
 	
+	function get_last_login($id) {
+    	$result = $this->db->query("SELECT * FROM users WHERE id=".$id."")->row_array();
+    	return $result['lastLogin'];
+	}
+	
 	
 	function add_user(){                  
 		// TO DO - CHECK USER PERMISSION TO ADD USERS
@@ -186,7 +192,7 @@ class User extends CI_Controller {
 	
 	function save(){
 		$data = $_POST;
-		//$this->debug($data);
+//		$this->debug($data);
 		if($data['add']==1) {
 			$this->form_validation->set_rules('password', 'Heslo', 'trim|min_length[6]|matches[passwordReply]');
 			$this->form_validation->set_rules('passwordReply', 'Overenie hesla', 'trim');
@@ -236,7 +242,7 @@ class User extends CI_Controller {
 		$data = array();
 		$session_data = $this->session->userdata('logged_in');  
 		$data['username'] = $session_data['username'];
-		
+
 		if(!$sentData) {
 		$user_atts = array("id", "username", "password", "role", "blocked", "lastLogin");
 		
@@ -255,10 +261,13 @@ class User extends CI_Controller {
 			foreach ($sentData as $key => $value){
 				if($key=='role') {
 					$data['user']->$key = $this->get_role_list($value);
-				} else {
+				} 
+				else {
 					$data['user']->$key = $value;
 				}
 			}
+			
+			$data['user']->lastLogin = $this->get_last_login($sentData['id']);
 			
 		}
 		return $data;
