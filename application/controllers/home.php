@@ -10,13 +10,20 @@ class Home extends CI_Controller {
 	function index(){
 		$this->load->helper('form');
 		
-		if($this->session->userdata('logged_in')){ 
+		if($this->session->userdata('logged_in')){  
+			
+			
 			$session_data = $this->session->userdata('logged_in');  
-			$data['username'] = $session_data['username']; 
+			$data['username'] = $session_data['username'];             
+			
 			$result = $this->user->getLastLogin($session_data['id']); 
-			$data['lastLogin'] = $result->lastLogin;
+			$data['lastLogin'] = $result->lastLogin; 
+			
+			// get users tasks status
+			$tasks = $this->user->getTasksStatus($session_data['id']);
+			$data['tasks_stats'] = $tasks;
+			// echo "string";exit;
 			$data = $this->get_dashboard_tasks($data);
-			// echo '<pre>';print_r($data);echo'</pre>';exit;
 			$this->load->view('home_view', $data);
 		}
 		else{

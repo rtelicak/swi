@@ -5,10 +5,12 @@
         <div class="content">
             <div class="header">
                 <div class="stats">
-                    <p class="stat"><span class="number">53</span>Úloh celkovo</p>
-                    <p class="stat"><span class="number">27</span>Priradených</p>
-                    <p class="stat"><span class="number">15</span>Vyriešených</p>
-                    <p class="stat"><span class="number">12</span>Čakajúcich</p>
+                    <p class="stat"><span class="number"><?php print_r($tasks_stats['Total']); ?></span>Úloh celkovo</p>
+                    <p class="stat"><span class="number"><?php print_r(isset($tasks_stats['Closed']) ? $tasks_stats['Closed'] : 0); ?></span>Zatvorených</p>
+					<p class="stat"><span class="number"><?php print_r(isset($tasks_stats['Resolved']) ? $tasks_stats['Resolved'] : 0); ?></span>Vyriešených</p>
+					<p class="stat"><span class="number"><?php print_r(isset($tasks_stats['Reopened']) ? $tasks_stats['Reopened'] : 0); ?></span>Znovuotvorených</p>
+					<p class="stat"><span class="number"><?php print_r(isset($tasks_stats['In Progress']) ? $tasks_stats['In Progress'] : 0); ?></span>Rozpracovaných</p>
+					<p class="stat"><span class="number"><?php print_r(isset($tasks_stats['Open']) ? $tasks_stats['Open'] : 0); ?></span>Priradených</p>
                 </div>
                 <h1 class="page-title">Dashboard</h1>
             </div>
