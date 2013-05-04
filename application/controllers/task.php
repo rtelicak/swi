@@ -3,11 +3,20 @@ class Task extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->helper('form'); 
-		$this->load->library('form_validation');   
-	    $this->form_validation->set_rules('title', 'Nazov', 'required');
-		$this->form_validation->set_rules('desc', 'Popis ulohy', 'required');
-		$this->form_validation->set_rules('deadline', 'Deadline', 'required');
+	
+		if($this->session->userdata('logged_in')){  
+			$session_data = $this->session->userdata('logged_in');  
+			$data['username'] = $session_data['username'];             
+			
+			$this->load->helper('form'); 
+			$this->load->library('form_validation');   
+			$this->form_validation->set_rules('title', 'Nazov', 'required');
+			$this->form_validation->set_rules('desc', 'Popis ulohy', 'required');
+			$this->form_validation->set_rules('deadline', 'Deadline', 'required');		}
+		else{
+			//If no session, redirect to login page
+			redirect('login', 'refresh');
+		}
 	}
 
 	function index(){

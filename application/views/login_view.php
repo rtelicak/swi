@@ -2,7 +2,7 @@
 
 		<div class="navbar">
 			<div class="navbar-inner">
-				<a class="brand" href="index.html"><span class="first">Projekt</span> - <span class="second">Softvérové Inžinierstvo II</span></a>
+				<a class="brand" href="<?php echo base_url(); ?>"><span class="first">Projekt</span> - <span class="second">Softvérové Inžinierstvo II</span></a>
 			</div>
 		</div>
 	
@@ -11,6 +11,12 @@
 				<div class="block">
 					<p class="block-heading">Prihlásenie</p>
 					<div class="block-body"> 
+                    	<?php
+						if($msg!='') {
+							echo '<div class="alert alert-info">';
+							echo $msg;
+							echo "</div>";
+						} ?>
 						<?php echo validation_errors(); ?>
 						<?php echo form_open('verifylogin'); ?>
 							<label>Prihlasovacie meno</label>

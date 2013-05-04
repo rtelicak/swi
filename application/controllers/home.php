@@ -11,8 +11,6 @@ class Home extends CI_Controller {
 		$this->load->helper('form');
 		
 		if($this->session->userdata('logged_in')){  
-			
-			
 			$session_data = $this->session->userdata('logged_in');  
 			$data['username'] = $session_data['username'];             
 			
@@ -25,7 +23,7 @@ class Home extends CI_Controller {
 			// get chart data
 			$data['chart1'] = $this->getChartData1($session_data['id']);
 			$data['chart2'] = $this->getChartData2($session_data['id']);
-// echo "<pre>";			print_r($this->getChartData($session_data['id'])); echo "</pre>";exit;
+			// echo "<pre>";print_r($this->getChartData($session_data['id'])); echo "</pre>";exit;
 			
 			// echo "string";exit;
 			$data = $this->get_dashboard_tasks($data);
@@ -40,7 +38,15 @@ class Home extends CI_Controller {
 	function logout(){
 		$this->session->unset_userdata('logged_in');
 		session_destroy();
-		redirect('home', 'refresh');
+		redirect('home/loggedout', 'refresh');
+	}
+	
+	function loggedout() {
+		$data = array(
+               'msg' => 'Boli ste úspešne odhlásený!'
+          );
+		$this->load->helper('form');
+	    $this->load->view('login_view', $data);
 	}
 	
 	function displayTaskForm(){

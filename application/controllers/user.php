@@ -3,14 +3,23 @@ class User extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->helper('form'); 
-		$this->load->library('form_validation');   
-		$this->form_validation->set_rules('password', 'Password', 'required');
-	    $this->form_validation->set_rules('username', 'Používateľské meno', 'required');
+		
+		if($this->session->userdata('logged_in')){  
+			$session_data = $this->session->userdata('logged_in');  
+			$data['username'] = $session_data['username'];             
+			
+			$this->load->helper('form'); 
+			$this->load->library('form_validation');   
+			$this->form_validation->set_rules('password', 'Password', 'required');
+	   		$this->form_validation->set_rules('username', 'Používateľské meno', 'required');
+		}
+		else{
+			//If no session, redirect to login page
+			redirect('login', 'refresh');
+		}
 	}
 
-	function index(){
-        // echo "aaa";
+	function index(){        
 	}
 	
 	function user_list(){              
@@ -65,19 +74,16 @@ class User extends CI_Controller {
 		$session_data = $this->session->userdata('logged_in');  
 		$data['username'] = $session_data['username'];
 		$data['user'] = $this->get_user($id_user);
-		$data['user']->role = $this->get_role_list($id_user);
+		$data['user']->role = $this->get_role_list($id_user, NULL);
 		$data['user']->add = false;
 		//$this->debug($data);
 		$this->load->view('user_detail', $data);
 	} 
 	
-	function get_role_list($id=NULL){
+	function get_role_list($id=NULL, $role=NULL){
 		if($id) {
 		$query = $this->db->query("SELECT role FROM users WHERE id=".$id."");
 		$role = $query->row('role');
-		}
-		else {
-			$role=0;
 		}
 		
 		$out = '<select name="role" name="role">';
@@ -193,10 +199,10 @@ class User extends CI_Controller {
 	function save(){
 		$data = $_POST;
 //		$this->debug($data);
-		if($data['add']==1) {
+//		if($data['add']==1) {
 			$this->form_validation->set_rules('password', 'Heslo', 'trim|min_length[6]|matches[passwordReply]');
 			$this->form_validation->set_rules('passwordReply', 'Overenie hesla', 'trim');
-		}
+//		}
 		if ($this->form_validation->run() == FALSE){ 
 				// save failed, fill form with posted data
 				$data = $this->prepare_data_array($data);
@@ -209,7 +215,8 @@ class User extends CI_Controller {
 				unset($data['id_user']);  
 				unset($data['passwordReply']);
 				unset($data['add']);
-				
+				$data['password'] = md5($data['password']);
+
 				// perform update database
 				$this->db->where('id', $id_user);
 				$this->db->update('users', $data);
@@ -252,7 +259,7 @@ class User extends CI_Controller {
 			$data['user']->$key = "";
 		}
 		
-		$data['user']->role= $this->get_role_list();
+		$data['user']->role= $this->get_role_list(NULL,2);
 		$data['user']->add=true;
 		
 		} else {
@@ -260,14 +267,17 @@ class User extends CI_Controller {
 				// fill master array with data
 			foreach ($sentData as $key => $value){
 				if($key=='role') {
-					$data['user']->$key = $this->get_role_list($value);
+					echo $value;
+					$data['user']->$key = $this->get_role_list(NULL,$value);
 				} 
 				else {
 					$data['user']->$key = $value;
 				}
 			}
 			
-			$data['user']->lastLogin = $this->get_last_login($sentData['id']);
+			if($data['user']->add == 0 ) {
+				$data['user']->lastLogin = $this->get_last_login($sentData['id']);
+			}
 			
 		}
 		return $data;
