@@ -62,13 +62,13 @@
                 <div class="row-fluid">
                     <div class="block span6">
                         <a href="#widget1" class="block-heading" data-toggle="collapse">Graf 1</a>
-                        <div id="widget1" class="block-body collapse in">
+                        <div id="chart1" style="width: 459px; height: 300px;" class="block-body collapse in">
                             <h2>Graf title</h2>
                         </div>
                     </div>
                     <div class="block span6">
                         <a href="#widget2" class="block-heading" data-toggle="collapse">Graf 2</a>
-                        <div id="widget2" class="block-body collapse in">
+                        <div id="chart2" style="width: 459px; height: 300px;" class="block-body collapse in">
                             <h2>Graf title</h2>
                         </div>
                     </div>
@@ -89,5 +89,60 @@
                 $('.demo-cancel-click').click(function(){return false;});
             });
         </script>
+        
+		<!-- js chart section -->
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	    <script type="text/javascript">
+	      google.load("visualization", "1", {packages:["corechart"]});
+	      google.setOnLoadCallback(drawChart);
+	      function drawChart() {
+		
+			var stateData = <?php print_r(json_encode($chart1)); ?>;
+			var priorityData = <?php print_r(json_encode($chart2)); ?>;
+			var stateArray = []; 
+			var priorityArray = [];
+			
+			var stateTitle = ['state', 'count'];
+			stateArray.push(stateTitle);
+			
+			var priorityTitle = ['priority', 'count'];
+			priorityArray.push(priorityTitle);
+			
+			// parse state data
+			for(var i = 0; i < stateData.length; i++){
+				var tmp = [];
+				tmp.push(stateData[i].state);
+				tmp.push(parseInt(stateData[i].count));
+				
+				stateArray.push(tmp);
+			}
+			    
+			// parse priority data
+			for(i = 0; i < priorityData.length; i++){
+				var tmp = [];
+				tmp.push(priorityData[i].priority);
+				tmp.push(parseInt(priorityData[i].count));
+				
+				priorityArray.push(tmp);
+			}
+			
+
+			var options1 = {
+				title: 'Rozdelenie úloh podľa stavu',
+				is3D: true
+	        };
+	
+			var options2 = {
+				title: 'Rozdelenie úloh podľa priority',
+				is3D: true
+	        };
+
+	        var chart1 = new google.visualization.PieChart(document.getElementById('chart1'));
+	        chart1.draw(google.visualization.arrayToDataTable(stateArray), options1);
+	
+	        var chart2 = new google.visualization.PieChart(document.getElementById('chart2'));
+	        chart2.draw(google.visualization.arrayToDataTable(priorityArray), options2);
+	      }
+	    </script>
     </body>
 </html>
