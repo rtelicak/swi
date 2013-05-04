@@ -3,10 +3,15 @@ class User extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		
+		//var_dump($this->session->userdata);
 		if($this->session->userdata('logged_in')){  
 			$session_data = $this->session->userdata('logged_in');  
 			$data['username'] = $session_data['username'];             
+			
+			if($this->session->userdata('role')!=1) {
+				$this->session->set_flashdata('error', '<strong>Prístup používateľským kontám je len pre administrátorov TASK MANAŽÉRA!</strong>');
+            	redirect("home", "refresh");
+			}
 			
 			$this->load->helper('form'); 
 			$this->load->library('form_validation');   

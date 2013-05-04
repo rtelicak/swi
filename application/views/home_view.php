@@ -21,10 +21,23 @@
             <div class="container-fluid">
                 <div class="row-fluid">
                     <div class="row-fluid">
+                    	<?php 
+						if($this->session->flashdata('message')) {
+							echo '<div class="alert alert-info">';
+							echo $this->session->flashdata('message');
+							echo "</div>";
+						}
+						else if($this->session->flashdata('error')) {
+							echo '<div class="alert alert-danger">';
+							echo $this->session->flashdata('error');
+							echo '</div>';
+						}
+						else {
+						?>
                         <div class="alert alert-info">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
                             <strong>Dobrý deň, naposledy ste boli prihlásení:</strong> <?php echo $lastLogin ?>
                         </div>
+                        <?php } ?>
                         <div class="block">
                             <a href="#page-stats" class="block-heading" data-toggle="collapse">Najnovšie priradené úlohy</a>
                             <div id="page-stats" class="block-body collapse in">
