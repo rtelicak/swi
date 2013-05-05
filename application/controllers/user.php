@@ -80,6 +80,7 @@ class User extends CI_Controller {
 		$data['user'] = $this->get_user($id_user);
 		$data['user']->role = $this->get_role_list($id_user, NULL);
 		$data['user']->add = false;
+		$data['user']->msg = false;
 		//$this->debug($data);
 		$this->load->view('user_detail', $data);
 	} 
@@ -203,10 +204,10 @@ class User extends CI_Controller {
 	function save(){
 		$data = $_POST;
 //		$this->debug($data);
-//		if($data['add']==1) {
-			$this->form_validation->set_rules('password', 'Heslo', 'trim|min_length[6]|matches[passwordReply]');
-			$this->form_validation->set_rules('passwordReply', 'Overenie hesla', 'trim');
-//		}
+
+		$this->form_validation->set_rules('password', 'Heslo', 'trim|min_length[6]|matches[passwordReply]');
+		$this->form_validation->set_rules('passwordReply', 'Overenie hesla', 'trim');
+		
 		if ($this->form_validation->run() == FALSE){ 
 				// save failed, fill form with posted data
 				$data = $this->prepare_data_array($data);
@@ -232,6 +233,17 @@ class User extends CI_Controller {
 				// redirect to user detail we just updated
 				redirect("user/detail/".$id_user."", 'refresh');
 			} else{
+				if(!$this->userCheck($data['username'])) {
+					
+					// save failed, fill form with posted data
+					$data = $this->prepare_data_array($data);
+					
+					$msg = "Používateľ s menom <strong>".$data['user']->username."</strong> už existuje!";
+					$data['user']->msg = $msg;
+
+					$this->load->view('user_detail', $data);
+				}
+				else {
 				// create user 
 				unset($data['id_user']);
 				unset($data['passwordReply']);
@@ -244,6 +256,7 @@ class User extends CI_Controller {
 				$this->session->set_flashdata('message', $msg);
 				
 				redirect('user/user_list', 'refresh');
+				}
 			}
 		}
 	}
@@ -256,7 +269,7 @@ class User extends CI_Controller {
 		$data['username'] = $session_data['username'];
 
 		if(!$sentData) {
-		$user_atts = array("id", "username", "password", "role", "blocked", "lastLogin");
+		$user_atts = array("id", "username", "password", "role", "blocked", "lastLogin", "msg");
 		
 		$data['user'] = new StdClass;
 		// fill master array with empty string
@@ -272,7 +285,7 @@ class User extends CI_Controller {
 				// fill master array with data
 			foreach ($sentData as $key => $value){
 				if($key=='role') {
-					echo $value;
+					//echo $value;
 					$data['user']->$key = $this->get_role_list(NULL,$value);
 				} 
 				else {
@@ -286,6 +299,18 @@ class User extends CI_Controller {
 			
 		}
 		return $data;
+	}
+	
+	function userCheck($username) {
+		$query = $this->db->query("SELECT * FROM users WHERE username='".$username."'");
+		$records = $query->row('id');
+		if(empty($records))
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 
