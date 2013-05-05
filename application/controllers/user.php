@@ -236,7 +236,8 @@ class User extends CI_Controller {
 				unset($data['id_user']);
 				unset($data['passwordReply']);
 				unset($data['add']);
-
+				$data['password'] = md5($data['password']);
+				
 				$this->db->insert('users', $data);
 				$msg = "Používateľ <strong>".$data['username']."</strong> bol úspešne <strong>pridaný</strong>";
 
