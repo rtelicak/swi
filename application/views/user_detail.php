@@ -22,16 +22,22 @@
 			<div class="well">
 				<div class="form-cover">
 					<div class="tab-pane active in" id="home">
-                    <?php 
+                    
+                    <?php
 						if($this->session->flashdata('message')) {
 							echo '<div class="alert alert-info">';
 							echo $this->session->flashdata('message');
 							echo "</div>";
 						}
-						if($this->session->flashdata('error')) {
+						else if($this->session->flashdata('error')) {
 							echo '<div class="alert alert-danger">';
 							echo $this->session->flashdata('error');
 							echo '</div>';
+						}
+						elseif($user->msg != '') {
+							echo '<div class="alert alert-warning">';
+							echo $user->msg;
+							echo "</div>";
 						}
 					?>
 						<form id="tab" class="form-horizontal" method="post" action="<?php echo base_url() ?>user/save">

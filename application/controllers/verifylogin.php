@@ -43,18 +43,25 @@ class VerifyLogin extends CI_Controller {
     
     if($result)
     {
-      $sess_array = array();
-      foreach($result as $row)
-      {
-        $sess_array = array(
-          'id' => $row->id,
-          'username' => $row->username,
-		  'role' => $row->role,
-		  'blocked' => $row->blocked
-        );
-        $this->session->set_userdata('logged_in', $sess_array);  
-      }
-      return TRUE;
+		if($result[0]->blocked != 0) 
+		{
+			$this->form_validation->set_message('check_database', 'Váš prístup je blokovaný');
+      		return false;
+		}
+		else {
+		  $sess_array = array();
+		  foreach($result as $row)
+		  {
+			$sess_array = array(
+			  'id' => $row->id,
+			  'username' => $row->username,
+			  'role' => $row->role,
+			  'blocked' => $row->blocked
+			);
+			$this->session->set_userdata('logged_in', $sess_array);  
+		  }
+		  return TRUE;
+		}
     }
     else
     {
