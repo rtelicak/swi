@@ -36,7 +36,7 @@
                             <tbody> 
 									<?php foreach ($tasks as $task): ?>
 										<tr>
-											<td><a href=detail/<?php echo $task->id?>><?php echo $task->title?></a></td>
+											<td><a href="<?php echo base_url() ?>task/detail/<?php echo $task->id?>"><?php echo $task->title?></a></td>
 											<td><?php echo $task->username?></td>
 											<td><?php echo $task->deadline?></td>
 											<td><?php echo $task->state?></td> 

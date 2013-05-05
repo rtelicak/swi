@@ -117,7 +117,40 @@ class Task extends CI_Controller {
 		$_POST['dateTime'] = date("Y-m-d H:i:s");
 		$this->db->insert('comments', $_POST); 
 		redirect("task/detail/".$_POST['id_task']."", 'refresh');
+	} 
+	
+	function set_to_progress($id_task){
+		$data = array('id_state' => 2); // 2 means In Progress
+		$this->db->where('id', $id_task);
+		$this->db->update('tasks', $data);
+		
+		redirect('task/detail/'.$id_task.'', 'refresh');
 	}
+	
+	function solve($id_task){
+		$data = array('id_state' => 4); // 4 means Resolved, still needs to be confirmed with role 1 user
+		$this->db->where('id', $id_task);
+		$this->db->update('tasks', $data);
+		
+		redirect('task/detail/'.$id_task.'', 'refresh');
+	}
+
+	function reopen($id_task){
+		$data = array('id_state' => 1); // 1 means Opened
+		$this->db->where('id', $id_task);
+		$this->db->update('tasks', $data);
+		
+		redirect('task/detail/'.$id_task.'', 'refresh');
+	}
+
+	function close($id_task){
+		$data = array('id_state' => 5); // 5 means Closed
+		$this->db->where('id', $id_task);
+		$this->db->update('tasks', $data);
+		
+		redirect('task/detail/'.$id_task.'', 'refresh');
+	}
+	
 	
 	/****** private functions ******/
 	

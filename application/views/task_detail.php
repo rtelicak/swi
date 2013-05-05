@@ -71,15 +71,27 @@
 							</div>
 						</div>
 						</div>                                                 
-						<!-- if this this task belong to currently logged user, or logged user has role 1 display action buttons -->
-						<?php if ($role == 1 || $id_assigned_user == $id_logged_user): ?>
-	                        <div class="mb-30" style="padding-top: 40px;">
-	                            <button class="btn btn-small btn-success"><i class="icon-ok"></i> Vyriešiť úlohu</button>
-	                            <button class="btn btn-small btn-primary"><i class="icon-bar-chart"></i> Začať pracovať na úlohe</button>
-	                            <button class="btn btn-small btn-primary"><i class="icon-off"></i> Ukončiť prácu na úlohe</button>
-								<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task ?>"><button class="btn btn-small btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
-	                        </div>
-						<?php endif ?>
+						<!-- display action btn according to user's role and task's status -->
+                        <div class="mb-30" style="padding-top: 40px;"> 
+							<?php if ($role == 1): ?>
+								<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task; ?>"><button class="btn btn-small btn-warning"><i class="icon-edit"></i> Upraviť úlohu</button></a>
+								<a href="<?php echo base_url() ?>task/close/<?php echo $id_task; ?>"><button class="btn btn-small btn-danger"><i class="icon-off"></i> Zavrieť úlohu</button></a>  
+							<?php endif ?>
+
+							<?php if ($role == 1 && ($state == "Resolved" || $state == "Closed")): ?>
+								<a href="<?php echo base_url() ?>task/reopen/<?php echo $id_task; ?>"><button class="btn btn-small btn-info"><i class="icon-off"></i> Znovuotvoriť úlohu</button></a> 
+							<?php endif ?>
+							
+							</br><div style="padding-top: 20px;" />
+							
+							<?php if ($id_assigned_user == $id_logged_user && $state == "Open" || $state == "Reopened"): ?>
+								<a href="<?php echo base_url() ?>task/set_to_progress/<?php echo $id_task ?>"><button class="btn btn-small btn-success"><i class="icon-bar-chart"></i> Začať pracovať na úlohe</button></a>
+							<?php endif ?>
+							
+							<?php if ($id_assigned_user == $id_logged_user && $state == "In Progress"): ?>
+								<a href="<?php echo base_url() ?>task/solve/<?php echo $id_task ?>"><button class="btn btn-small btn-success"><i class="icon-ok"></i> Vyriešiť úlohu</button></a>
+							<?php endif ?>
+                        </div>
                         <h3>Komentáre</h3>
 						<ul class=comment-wrapper>
 							<?php foreach ($comments as $comment): ?>
