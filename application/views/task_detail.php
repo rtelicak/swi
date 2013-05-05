@@ -6,7 +6,7 @@
             <h1 class="page-title">Detail úlohy</h1>
         </div>
         <ul class="breadcrumb">
-            <li><a href="index.html">Úlohy</a> <span class="divider">/</span></li>
+            <li><a href="<?php echo base_url() ?>task/task_list">Úlohy</a> <span class="divider">/</span></li>
             <li class="active">Detail úlohy</li>
         </ul>
         <div class="container-fluid">
@@ -70,13 +70,16 @@
 								<p><span class="label label-success"><?php echo $state; ?></span></p> 
 							</div>
 						</div>
-						</div>
-                        <div class="mb-30" style="padding-top: 40px;">
-                            <button class="btn btn-small btn-success"><i class="icon-ok"></i> Vyriešiť úlohu</button>
-                            <button class="btn btn-small btn-primary"><i class="icon-bar-chart"></i> Začať pracovať na úlohe</button>
-                            <button class="btn btn-small btn-primary"><i class="icon-off"></i> Ukončiť prácu na úlohe</button>
-							<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task ?>"><button class="btn btn-small btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
-                        </div>
+						</div>                                                 
+						<!-- if this this task belong to currently logged user, or logged user has role 1 display action buttons -->
+						<?php if ($role == 1 || $id_assigned_user == $id_logged_user): ?>
+	                        <div class="mb-30" style="padding-top: 40px;">
+	                            <button class="btn btn-small btn-success"><i class="icon-ok"></i> Vyriešiť úlohu</button>
+	                            <button class="btn btn-small btn-primary"><i class="icon-bar-chart"></i> Začať pracovať na úlohe</button>
+	                            <button class="btn btn-small btn-primary"><i class="icon-off"></i> Ukončiť prácu na úlohe</button>
+								<a href="<?php echo base_url() ?>task/edit_task/<?php echo $id_task ?>"><button class="btn btn-small btn-warning"><i class="icon-edit"></i> Upravit ulohu</button></a>
+	                        </div>
+						<?php endif ?>
                         <h3>Komentáre</h3>
 						<ul class=comment-wrapper>
 							<?php foreach ($comments as $comment): ?>

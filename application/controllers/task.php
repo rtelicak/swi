@@ -24,7 +24,15 @@ class Task extends CI_Controller {
 		// $this->load->view('task_list');
 	}
 	
-	function task_list($id = null){
+	function task_list($id = null){ 
+		$this->load->helper('url');
+		
+		$url  = parse_url(current_url());
+		$users_tasks = pathinfo($url['path'])['basename'];  
+		
+		// hack to find if displaying users or all tasks
+		$users_tasks += 0;
+		
 		if ($id != null){
 			$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE users.id = ".$id."");
 		} else{
@@ -42,6 +50,8 @@ class Task extends CI_Controller {
 		// print_r($session_data);exit;  
 		$data['username'] = $session_data['username']; 
 		$data['user_id'] = $session_data['id'];
+		
+		$data['users_tasks'] = $users_tasks;
 		$this->load->view('task_list', $data);
 	}
 	
@@ -92,8 +102,9 @@ class Task extends CI_Controller {
 		} 
 		
 		$data = $this->populate_other_data($data); 
+	   // echo "<pre>"; print_r($data); echo "</pre>"; exit;
 		$data = $this->get_comments($id_task, $data);
-		// print_r($data);exit;
+
 		$this->load->view('task_detail', $data);
 	}
 	
@@ -136,7 +147,7 @@ class Task extends CI_Controller {
 		// print_r($session_data);exit;
 		$data['username'] = $session_data['username'];
 		$data['id_logged_user'] = $session_data['id'];
-		
+		$data['role'] = $session_data['role'];
 		return $data;
 	}
 	

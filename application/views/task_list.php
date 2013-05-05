@@ -7,14 +7,14 @@
                 <h1 class="page-title">Zoznam úloh</h1>
             </div>
             <ul class="breadcrumb">
-                <li><a href="index.html">Domov</a> <span class="divider">/</span></li>
+                <li><a href="<?php echo base_url() ?>home">Domov</a> <span class="divider">/</span></li>
                 <li class="active">Zoznam úloh</li>
             </ul>
             <div class="container-fluid">
                 <div class="row-fluid">
                     <div class="btn-toolbar">
                         <a href="<?php echo base_url() ?>task/add_task"><button class="btn btn-primary"><i class="icon-plus"></i> Nová úloha</button></a>
-                        <a href="<?php echo base_url() ?>task/task_list/<?php echo $user_id ?>"><button class="btn btn-primary"><i class="icon-check"></i> Zobraziť len moje úlohy</button></a>
+                        <a href="<?php echo base_url() ?>task/task_list/<?php echo $users_tasks == 0 ? $user_id : ""; ?>"><button class="btn btn-primary"><i class="icon-check"></i><?php echo $users_tasks == 0 ? "Zobraziť len moje úlohy" : "Zobraziť všetky úlohy"; ?></button></a>
                         <button class="btn btn-danger"><i class="icon-time"></i> Zobraziť úlohy pred deadlinom</button>
                         <div class="btn-group right">
                             <form class="search form-inline mb-0">
@@ -45,16 +45,6 @@
 									<?php endforeach; ?>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="pagination">
-                        <ul>
-                            <li><a href="#">Prev</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">Next</a></li>
-                        </ul>
                     </div>
                     <div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-header">
