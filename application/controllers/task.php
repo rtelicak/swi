@@ -28,7 +28,9 @@ class Task extends CI_Controller {
 		$this->load->helper('url');
 		
 		$url  = parse_url(current_url());
-		$users_tasks = pathinfo($url['path'])['basename'];  
+		$users_tasks = pathinfo($url['path']);
+		$users_tasks = $users_tasks['basename'];
+		
 		
 		// hack to find if displaying users or all tasks
 		$users_tasks += 0;
