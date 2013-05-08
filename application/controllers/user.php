@@ -81,7 +81,7 @@ class User extends CI_Controller {
 		$data['user']->role = $this->get_role_list($id_user, NULL);
 		$data['user']->add = false;
 		$data['user']->msg = false;
-		//$this->debug($data);
+		$this->debug($data);
 		$this->load->view('user_detail', $data);
 	} 
 	

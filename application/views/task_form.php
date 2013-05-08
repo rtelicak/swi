@@ -7,7 +7,7 @@
                 <h1 class="page-title">Nová úloha</h1>
             </div>
             <ul class="breadcrumb">
-                <li><a href="home">Úlohy</a> <span class="divider">/</span></li>
+                <li><a href="<?php echo base_url() ?>home">Úlohy</a> <span class="divider">/</span></li>
                 <li class="active"><?php echo is_numeric($id_task) ? "Upravenie úlohy" : "Nová úloha"; ?></li>
             </ul>
             <div class="container-fluid">
