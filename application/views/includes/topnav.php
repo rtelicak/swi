@@ -8,7 +8,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="divider visible-phone"></li>
-                            <li><a tabindex="-1" href="#">Moje úlohy</a></li>
+                            <li><a tabindex="-1" href="<?php echo base_url() ?>task/task_list/<?php $user = $this->session->userdata('logged_in');  echo $user['id']; ?>">Moje úlohy</a></li>
                             <li class="divider visible-phone"></li>
                             <li><a tabindex="-1" href="<?php echo base_url(); ?>home/logout">Odhlásenie</a></li>
                         </ul>
