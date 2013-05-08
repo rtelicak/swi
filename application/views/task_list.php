@@ -17,11 +17,18 @@
                         <a href="<?php echo base_url() ?>task/task_list/<?php echo $users_tasks == 0 ? $user_id : ""; ?>"><button style="margin-left: 10px;" class="btn btn-primary"><i class="icon-check"></i><?php echo $users_tasks == 0 ? " Zobraziť len moje úlohy" : " Zobraziť všetky úlohy"; ?></button></a>
                         <a href="<?php echo base_url() ?>task/before_deadline"><button style="margin-left: 10px;" class="btn btn-danger"><i class="icon-time"></i> Zobraziť úlohy pred deadlinom</button></a>
                         <div class="btn-group right">
-                            <form class="search form-inline mb-0">
-                                <input type="text" placeholder="Vyhľadávanie v úlohách..">
+                            <form id="tab" class="search form-inline mb-0" method="post" action="<?php echo base_url() ?>task/search">
+                                <input type="text" name="keyword" id="keyword" placeholder="Vyhľadávanie v úlohách..">
                             </form>
                         </div>
                     </div>
+                    <?php if($keyword != FALSE ) {
+						echo '<div class="alert alert-info">';
+						echo "Zobrazuje sa výsledok vyhľadávania pre: <b>\"".$keyword."\"</b>";
+						echo "<a class='btn btn-danger pull-right' href='".base_url()."task/task_list'>Návrat na zoznam úloh<a>";
+						echo "<div class='clearfix'></div>";
+						echo "</div>";
+                    } ?>
                     <div class="">
                         <table class="table table-bordered table-striped">
                             <thead>

@@ -23,7 +23,7 @@ class Task extends CI_Controller {
 		// $this->load->view('task_list');
 	}
 	
-	function task_list($id = null, $deadline_query = null){ 
+	function task_list($id = null, $deadline_query = null, $keyword = null){ 
 		$this->load->helper('url');
 		
 		$url  = parse_url(current_url());
@@ -59,6 +59,13 @@ class Task extends CI_Controller {
 		$data['user_id'] = $session_data['id'];
 		
 		$data['users_tasks'] = $users_tasks;
+		
+		if($keyword!=NULL) {
+			$data['keyword']= $keyword;
+		} else {
+			$data['keyword']= false;
+		}
+		
 		$this->load->view('task_list', $data);
 	} 
 	
@@ -74,6 +81,13 @@ class Task extends CI_Controller {
 	function add_task(){                  
 		$data = $this->populate_data_array();
 		$this->load->view('task_form', $data);
+	}
+	
+	function search(){                  
+		$data = $_POST;
+		$query = "SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE tasks.title LIKE '%".$data['keyword']."%'";
+		//die($query);
+		$this->task_list(null, $query, $data['keyword']);
 	}
 		
 	function save(){
