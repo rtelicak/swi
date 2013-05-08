@@ -67,7 +67,13 @@ class Task extends CI_Controller {
 			$data['keyword']= false;
 		}
 		
+		$data['role'] = $session_data['role'];
 		$this->load->view('task_list', $data);
+	}
+	
+	function delete($id_task){
+		$this->db->delete('tasks', array('id' => $id_task));
+		redirect("task/task_list", 'refresh'); 
 	} 
 	
 	function before_deadline(){ 

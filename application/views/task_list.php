@@ -41,6 +41,9 @@
                                     <th>Deadline</th>
                                     <th>Stav</th>    
 									<th>Priorita</th>
+									<?php if ($role == 1): ?>
+										<th>Zmazat</th>     
+									<?php endif ?>
                                 </tr>
                             </thead>
                             <tbody> 
@@ -51,6 +54,9 @@
 											<td><?php echo $task->deadline?></td>
 											<td><?php echo $task->state?></td> 
 											<td><?php echo $task->priority?></td> 
+											<?php if ($role == 1): ?>
+												<td style="width: 90px;"><a class="btn btn-danger" href="<?php echo base_url() ?>task/delete/<?php echo $task->id?>"><i class="icon-trash icon-large"></i> Delete</a></td>
+											<?php endif ?>
 										</tr>
 									<?php endforeach; ?>
                             </tbody>
