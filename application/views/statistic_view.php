@@ -32,16 +32,10 @@
                     <h2>Graf title</h2>
                 </div>
 			</div>
-			<div class="block">
-				<p class="block-heading">Graf</p>
-				<div class="block-body gallery">
-					<div class="clearfix"></div>
-				</div>
-			</div>
 			<footer>
 				<hr>
 				<p class="pull-right">
-					Task manager v1.1
+					Task manager v1.0.4 b
 				</p>
 				<div class="clearfix">&nbsp;</div>
 			</footer>

@@ -72,7 +72,7 @@
                     <footer>
                         <hr>
                         <p class="pull-right">
-                            Task manager v1.1
+                            Task manager v1.0.4 b
                         </p>
                         <div class="clearfix">&nbsp;</div>
                     </footer>

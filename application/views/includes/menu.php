@@ -7,7 +7,7 @@
         <li><a href="<?php echo base_url() ?>home">Domov</a></li>
         <li ><a href="<?php echo base_url() ?>statistic">Štatistiky</a></li>
     </ul>
-    <a href="#tasks-menu" class="nav-header" data-toggle="collapse"><i class="icon icon-briefcase"></i>Úlohy<span class="label label-info"><i class="icon-th-list" style="margin:0 0.75em"></i></span></a>
+    <a href="#tasks-menu" class="nav-header" data-toggle="collapse"><i class="icon icon-briefcase"></i>Úlohy<span class="label label-info"></span></a>
     <ul id="tasks-menu" class="nav nav-list collapse">
         <li ><a href="<?php echo base_url() ?>task/task_list">Prehľad úloh</a></li>
         <li ><a href="<?php echo base_url() ?>task/task_list/<?php $loggedUser = $this->session->userdata('logged_in');  echo $loggedUser['id']; ?>">Prehľad mojich úloh</a></li>
