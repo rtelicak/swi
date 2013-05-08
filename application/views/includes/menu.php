@@ -1,6 +1,6 @@
 <div class="sidebar-nav">
-    <form class="search form-inline">
-        <input type="text" placeholder="Vyhľadávanie v úlohách..">
+    <form id="tab" class="search form-inline mb-0" method="post" action="<?php echo base_url() ?>task/search">
+        <input type="text" name="keyword" id="keyword" placeholder="Vyhľadávanie v úlohách..">
     </form>
     <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i>Dashboard</a>
     <ul id="dashboard-menu" class="nav nav-list collapse in">

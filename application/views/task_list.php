@@ -28,7 +28,7 @@
                     <?php if($keyword != FALSE ) {
 						echo '<div class="alert alert-info">';
 						echo "Zobrazuje sa výsledok vyhľadávania pre: <b>\"".$keyword."\"</b>";
-						echo "<a class='btn btn-danger pull-right' href='".base_url()."task/task_list'>Návrat na zoznam úloh<a>";
+						echo "<a class='btn btn-danger pull-right' href='".base_url()."task/task_list'>Návrat na zoznam úloh</a>";
 						echo "<div class='clearfix'></div>";
 						echo "</div>";
                     } ?>
