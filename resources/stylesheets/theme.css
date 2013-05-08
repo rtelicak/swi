@@ -991,7 +991,9 @@ td.load {
     top: 55% !important;
 }
 
-
+.icon{
+	padding: 0 6px;
+}
 
 
 
