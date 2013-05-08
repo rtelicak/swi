@@ -24,7 +24,9 @@ class Task extends CI_Controller {
 	}
 	
 	function task_list($id = null, $deadline_query = null, $keyword = null){ 
-		$this->load->helper('url');
+		$this->load->helper('url'); 
+		
+		// print_r($this->uri);exit;
 		
 		$url  = parse_url(current_url());
 		$users_tasks = pathinfo($url['path']);
