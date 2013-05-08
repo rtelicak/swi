@@ -12,7 +12,7 @@ class Home extends CI_Controller {
 		
 		if($this->session->userdata('logged_in')){  
 			$session_data = $this->session->userdata('logged_in');  
-			$data['username'] = $session_data['username'];             
+			$data['username'] = $session_data['username'];
 			
 			$result = $this->user->getLastLogin($session_data['id']); 
 			$data['lastLogin'] = $result->lastLogin; 
@@ -23,7 +23,7 @@ class Home extends CI_Controller {
 			// get chart data
 			$data['chart1'] = $this->getChartData1($session_data['id']);
 			$data['chart2'] = $this->getChartData2($session_data['id']);
-			// echo "<pre>";print_r($this->getChartData($session_data['id'])); echo "</pre>";exit;
+			// echo "<pre>";print_r($session_data); echo "</pre>";exit;
 			
 			// echo "string";exit;
 			$data = $this->get_dashboard_tasks($data);

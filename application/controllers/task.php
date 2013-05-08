@@ -5,8 +5,7 @@ class Task extends CI_Controller {
 		parent::__construct();
 	
 		if($this->session->userdata('logged_in')){  
-			$session_data = $this->session->userdata('logged_in');  
-			$data['username'] = $session_data['username'];             
+			$session_data = $this->session->userdata('logged_in');
 			
 			$this->load->helper('form'); 
 			$this->load->library('form_validation');   
