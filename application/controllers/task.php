@@ -51,7 +51,8 @@ class Task extends CI_Controller {
 			$tasks[] = $row;
 		}                   
 		
-		$data = array();
+		$data = array(); 
+		$data['deadline_tasks'] = $deadline_query ? true : false;
 		$data['tasks'] = $tasks;
 		$session_data = $this->session->userdata('logged_in');
 		// print_r($session_data);exit;  
