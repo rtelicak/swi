@@ -23,7 +23,7 @@ class Task extends CI_Controller {
 		// $this->load->view('task_list');
 	}
 	
-	function task_list($id = null){ 
+	function task_list($id = null, $deadline_query = null){ 
 		$this->load->helper('url');
 		
 		$url  = parse_url(current_url());
@@ -31,14 +31,20 @@ class Task extends CI_Controller {
 		$users_tasks = $users_tasks['basename'];
 		
 		
-		// hack to find if displaying users or all tasks
+		// hack to find wheter displaying user's or all tasks
 		$users_tasks += 0;
 		
 		if ($id != null){
-			$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE users.id = ".$id."");
-		} else{
-			$query = $this->db->query("SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id ORDER BY tasks.created DESC");
+			$query = "SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE users.id = ".$id."";
+		} else if ($id ==  null){
+			$query = "SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id ORDER BY tasks.created DESC";
 		}
+		
+		if ($deadline_query != null){
+			$query = $deadline_query;
+		}
+		
+		$query = $this->db->query($query);
 
 		$tasks = array();
 		foreach ($query->result() as $row){
@@ -54,6 +60,15 @@ class Task extends CI_Controller {
 		
 		$data['users_tasks'] = $users_tasks;
 		$this->load->view('task_list', $data);
+	} 
+	
+	function before_deadline(){ 
+		$today = date("Y-m-d"); 
+		$next_week = date("Y-m-d",strtotime("+1 week"));
+		// echo $next_week;exit;
+
+		$query = "SELECT users.username, tasks.title, tasks.id AS id, tasks.deadline, priority.priority, state.state FROM tasks LEFT JOIN users ON tasks.id_assigned_user = users.id LEFT JOIN state ON tasks.id_state = state.id LEFT JOIN priority ON tasks.id_priority = priority.id WHERE tasks.deadline between '".$today."' and '".$next_week."'";
+		$this->task_list(null, $query);
 	}
 	
 	function add_task(){                  
