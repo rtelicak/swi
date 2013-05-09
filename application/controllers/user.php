@@ -118,10 +118,9 @@ class User extends CI_Controller {
 		$query = $this->db->query("SELECT username FROM users WHERE id=".$id." ");
 		$userData = $query->result();
 		
-		//$this->db->delete('users', array('id' => $id));
+		$this->db->delete('users', array('id' => $id));
 		
-		$msg = "Používateľ <strong>".$userData[0]->username."</strong> bol úspešne zmazaný! 
-		<br /> Treba však odkomentovať operáciu zmazania v kóde [controller=user line=84].";
+		$msg = "Používateľ <strong>".$userData[0]->username."</strong> bol úspešne zmazaný!";
 
 		$this->session->set_flashdata('message', $msg);
 		redirect("user/user_list", "refresh");
