@@ -44,7 +44,7 @@
                                     <th>Stav</th>    
 									<th>Priorita</th>
 									<?php if ($role == 1): ?>
-										<th>Zmazat</th>     
+										<th>Zmazať</th>     
 									<?php endif ?>
                                 </tr>
                             </thead>

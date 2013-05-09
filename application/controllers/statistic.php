@@ -40,7 +40,7 @@ class Statistic extends CI_Controller {
 	}       
 	
 	function getChartData3(){
-		$query = $this->db->query("SELECT COUNT(tasks.id) as count, users.username from tasks LEFT JOIN users ON tasks.id_priority = users.id GROUP BY id_assigned_user");
+		$query = $this->db->query("SELECT COUNT(tasks.id) as count, users.username from tasks LEFT JOIN users ON tasks.id_assigned_user = users.id GROUP BY id_assigned_user");
 		$results = $query->result();
 		
 		return $results;
