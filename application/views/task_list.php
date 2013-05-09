@@ -13,7 +13,9 @@
             <div class="container-fluid">
                 <div class="row-fluid">
                     <div class="btn-toolbar">
-                        <a href="<?php echo base_url() ?>task/add_task"><button class="btn btn-primary"><i class="icon-plus"></i> Nová úloha</button></a>
+						<?php if ($role == 1): ?>
+                        	<a href="<?php echo base_url() ?>task/add_task"><button class="btn btn-primary"><i class="icon-plus"></i> Nová úloha</button></a>							
+						<?php endif ?>
                         <a href="<?php echo base_url() ?>task/task_list/<?php echo $users_tasks == 0 ? $user_id : ""; ?>"><button style="margin-left: 10px;" class="btn btn-primary"><i class="icon-check"></i><?php echo $users_tasks == 0 ? " Zobraziť len moje úlohy" : " Zobraziť všetky úlohy"; ?></button></a>
 						<?php if ($deadline_tasks): ?>
 							<a href="<?php echo base_url() ?>task/task_list/"><button style="margin-left: 10px;" class="btn btn-primary"><i class="icon-check"></i> Zobraziť všetky úlohy</button></a>
