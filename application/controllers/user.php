@@ -67,9 +67,11 @@ class User extends CI_Controller {
 		
 		$data = array();
 		$data['users'] = $userQuery;
-		$session_data = $this->session->userdata('logged_in');  
+		$session_data = $this->session->userdata('logged_in'); 
+		 
 		$data['username'] = $session_data['username']; 
-		
+		$data['role'] = $session_data['role']; 
+		// print_r($data);exit;
 		$this->load->view('user_list', $data);
 	}
 	
